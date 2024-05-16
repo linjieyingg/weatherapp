@@ -1,0 +1,9 @@
+-c main.txt
+
+nodeenv
+pgadmin4
+pandas
+matplotlib
+django-extensions
+jupyter
+jupyterlab
