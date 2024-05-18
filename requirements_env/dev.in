@@ -7,3 +7,4 @@ matplotlib
 django-extensions
 jupyter
 jupyterlab
+django_vite
