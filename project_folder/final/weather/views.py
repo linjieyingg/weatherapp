@@ -3,7 +3,7 @@ from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 # from django.urls import reverse_lazy
 from django.contrib import messages
-from .models import Observation
+from .models import Observation, Hourly
 from django.db.models import Q
 
 class ObservationListView(ListView):
@@ -20,3 +20,4 @@ class ObservationDetailView(DetailView):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
         return context
+    
