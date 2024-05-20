@@ -18,6 +18,11 @@ class Observation(models.Model):
     wind_dir = models.CharField()
     pressure_in = models.SmallIntegerField()
     precip_in = models.SmallIntegerField()
+    sunrise = models.DateTimeField()
+    sunset = models.DateTimeField()
+    moonrise = models.DateTimeField()
+    moonset = models.DateTimeField()
+    moon_phase = models.CharField()
     
 
     class Meta:
