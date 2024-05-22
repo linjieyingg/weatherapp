@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load django_vite %}
+{% block content %}
+
+<a href="{% url 'weather:weather_list' %}">Observations</a>
+<a href="{% url 'weather:weather_update' object.id %}">Update Observation</a><br />
+
+    <div id="app">
+        <app></app>
+    </div>
+
+    <h1>{{ object.date }}</h1>
+    Max: {{object.max}}<br />
+    Min: {{object.min}}<br />
+    UV Index: {{object.uv}}<br />
+
+{% endblock content %}

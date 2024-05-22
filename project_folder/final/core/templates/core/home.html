@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-This is a home page
+<a href="{% url 'weather:weather_list' %}">Daily Weather</a>
+
+<a href="{% url 'hourly:hourly_list' %}">Hourly</a>
+
+
 {% endblock content %}

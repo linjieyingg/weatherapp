@@ -13,13 +13,11 @@ from django.db.models import Q
 
 class HourlyListView(ListView):
     model = Hourly
-    context_object_name = 'hourlies'
-    template_name = 'weather/hourly_list.html'
+    context_object_name = 'hourlys'
     
 class HourlyDetailView(DetailView):
     model = Hourly
     context_object_name = 'hourly_details'
-    template_name = 'weather/hourly_detail.html'
     
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context

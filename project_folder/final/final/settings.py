@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'django_vite',
     'core',
     'weather',
+    'hourly',
 ]
 
 MIDDLEWARE = [

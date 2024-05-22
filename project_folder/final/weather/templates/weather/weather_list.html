@@ -2,9 +2,9 @@
 {% load static %}
 
 {% block content %}
-<h1  class="pt-3">Hourly </h1>
+<h1  class="pt-3">3 Days </h1>
 
-<div class="hourly-list">
+<div class="weather-list">
     {% comment %} <div class="my-2">
         <form action="{% url 'weather:search' %}" method = 'get'>
             <div class="inner-addon left-addon">
@@ -16,9 +16,9 @@
      {% endcomment %}
     <div >
         <div>
-            {% for hourly in object_list %}
-            <a href="{% url 'hourly:hourly_detail' hourly.id %}" class="list">
-            {{ hourly.date }}
+            {% for weather in object_list %}
+            <a href="{% url 'weather:weather_detail' weather.id %}" class="list">
+            {{ weather.date }}
             </a><br/>
             {% endfor %}
         </div>

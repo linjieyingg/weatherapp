@@ -7,12 +7,9 @@ class Observation(models.Model):
     location = models.CharField()
     country = models.CharField()
     condition = models.CharField() ##cloud,rainy,sunny,etc
-    temp_c = models.FloatField()
     temp_f = models.FloatField()
     humidity = models.SmallIntegerField()
-    max_c = models.FloatField()
     max_f = models.FloatField()
-    min_c = models.FloatField()
     min_f = models.FloatField()
     wind_mph = models.SmallIntegerField()
     wind_dir = models.CharField()
@@ -23,6 +20,7 @@ class Observation(models.Model):
     moonrise = models.DateTimeField()
     moonset = models.DateTimeField()
     moon_phase = models.CharField()
+    uv = models.SmallIntegerField(default = 1)
     
 
     class Meta:

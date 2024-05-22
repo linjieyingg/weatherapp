@@ -24,4 +24,5 @@ urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),
     path("", core.views.HomePageView.as_view(), name="homepage"),
     path('weather/', include('weather.urls', namespace='weather')),
+    path('hourly/', include('hourly.urls', namespace='hourly')),
 ]
