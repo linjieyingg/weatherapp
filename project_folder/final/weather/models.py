@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import date
 
 # Create your models here.
 
@@ -7,6 +8,7 @@ class Observation(models.Model):
     location = models.CharField()
     country = models.CharField()
     condition = models.CharField() ##cloud,rainy,sunny,etc
+    condition_img = models.URLField()
     temp_f = models.FloatField()
     humidity = models.SmallIntegerField()
     max_f = models.FloatField()
@@ -22,13 +24,17 @@ class Observation(models.Model):
     moon_phase = models.CharField()
     uv = models.SmallIntegerField(default = 1)
     
-
+    @property
+    def is_today(self):
+        return date.today() == self.date
+    
     class Meta:
         ordering = ['date']
-
+        
     def __str__(self):
     	return self.date
-  
+    
+    
   
 
         

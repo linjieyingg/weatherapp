@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<h1  class="pt-3">3 Days </h1>
+<h1  class="pt-3">3 Day Weather</h1>
 
 <div class="weather-list">
     {% comment %} <div class="my-2">
@@ -18,7 +18,19 @@
         <div>
             {% for weather in object_list %}
             <a href="{% url 'weather:weather_detail' weather.id %}" class="list">
-            {{ weather.date }}
+            {% if weather.is_today %}
+                {{ weather.date|date:"l d" }}  
+                
+                {{weather.temp_f}} <img style="" src={{ weather.condition_img }} alt="image"/> 
+                {{weather.condition}}
+                <i class="bi bi-droplet"></i>{{weather.precip_in}}
+                <i class="bi bi-wind"></i>{{weather.wind_dir}} {{weather.win_mph}}
+            {% endif %}
+            {{ weather.date|date:"l d" }}
+            {{weather.max_f}}/{{weather.min_f}} <img style="" src={{ weather.condition_img }} alt="image"/> 
+                {{weather.condition}}
+                <i class="bi bi-droplet"></i>{{weather.precip_in}}
+                <i class="bi bi-wind"></i>{{weather.wind_dir}} {{weather.win_mph}}
             </a><br/>
             {% endfor %}
         </div>
