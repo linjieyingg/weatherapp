@@ -27,7 +27,7 @@ class Observation(models.Model):
         ordering = ['date']
 
     def __str__(self):
-    		return self.name
+    	return self.date
   
   
 

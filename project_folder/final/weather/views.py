@@ -14,6 +14,10 @@ from django.forms.models import model_to_dict
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from .forms import ObservationForm
+from io import BytesIO
+import base64
+import matplotlib.pyplot as plt
+import numpy as np
 
 class ObservationListView(ListView):
     model = Observation
@@ -59,3 +63,24 @@ class ObservationUpdatebisView(View):
             return JsonResponse({"success": True})
         else:
             return JsonResponse({"success": False, "errors": form.errors})
+
+def graphic(request):
+    pos = np.arange(10)+ 2 
+    
+    df = pd.DataFrame(list(Observation.objects.all().values('date','min_f','max_f')))
+
+    fig = plt.figure(figsize=(8, 3))
+    ax = fig.add_subplot(111)
+
+    plt.tight_layout()
+
+    buffer = BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    image_png = buffer.getvalue()
+    buffer.close()
+
+    graphic = base64.b64encode(image_png)
+    graphic = graphic.decode('utf-8')
+
+    return render(request, 'graphic.html',{'graphic':graphic})

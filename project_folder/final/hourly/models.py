@@ -9,7 +9,6 @@ class Hourly(models.Model):
     country = models.CharField()
     condition = models.CharField() ##cloud,rainy,sunny,etc
     temp_c = models.FloatField()
-    temp_f = models.FloatField()
     humidity = models.SmallIntegerField()
     uv = models.SmallIntegerField()
     wind_mph = models.SmallIntegerField()
@@ -18,9 +17,8 @@ class Hourly(models.Model):
     precip_in = models.SmallIntegerField()
     observation_id = models.ForeignKey(Observation, null=True, on_delete=models.SET_NULL)
 
-
     class Meta:
         ordering = ['date']
 
     def __str__(self):
-    		return self.name
+    	return self.date
