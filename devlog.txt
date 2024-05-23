@@ -1,2 +1,5 @@
 JieyingL - 2024-05-23 19:00
-  set up django + vue + models + core + basic templates
+  - set up django + vue + models + core + basic templates
+
+JieyingL - 2024-05-24 17:40
+  - Worked on weather list template
