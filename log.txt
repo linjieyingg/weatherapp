@@ -1,1 +1,2 @@
-5/22 - Jieying: set up django + vue + models + core + basic templates
+JieyingL - 2024-05-23 19:00
+  set up django + vue + models + core + basic templates
