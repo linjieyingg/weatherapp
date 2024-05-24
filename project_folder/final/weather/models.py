@@ -8,7 +8,7 @@ class Observation(models.Model):
     location = models.CharField()
     country = models.CharField()
     condition = models.CharField() ##cloud,rainy,sunny,etc
-    condition_img = models.URLField()
+    condition_img = models.URLField(default='')
     temp_f = models.FloatField()
     humidity = models.SmallIntegerField()
     max_f = models.FloatField()

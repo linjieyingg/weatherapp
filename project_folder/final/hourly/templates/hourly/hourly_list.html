@@ -5,25 +5,23 @@
 <h1  class="pt-3">Hourly </h1>
 
 <div class="hourly-list">
-    {% comment %} <div class="my-2">
-        <form action="{% url 'weather:search' %}" method = 'get'>
-            <div class="inner-addon left-addon">
-                <i class="bi bi-search"></i>
-                <input type="text" name="q" placeholder="Search Artist Name">
-            </div>
-        </form>
-    </div>
-     {% endcomment %}
-    <div >
+
+    <div>
         <div>
             {% for hourly in object_list %}
-            <a href="{% url 'hourly:hourly_detail' hourly.id %}" class="list">
-            {{ hourly.date }}
-            </a><br/>
+            <div class=''>
+                <a href="{% url 'hourly:hourly_detail' hourly.id %}" class="list">
+                    {{ hourly.date|date:"H:00" }} 
+                </a>
+                {{hourly.temp_f}}
+                {{hourly.condition_img}} {{hourly.condition}}
+                <i class="bi bi-droplet"></i>{{hourly.precip_in}}
+                <i class="bi bi-wind"></i>{{hourly.wind_dir}} {{hourly.win_mph}}
+            </div>
             {% endfor %}
         </div>
-       
     </div>
+
 </div>
 
 

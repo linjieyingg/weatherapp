@@ -1,14 +1,16 @@
 from django.db import models
 from weather.models import Observation
-
+from datetime import datetime
 # Create your models here.
 
 class Hourly(models.Model):
-    date = models.DateTimeField()
+    date = models.DateTimeField(default=datetime.now().strftime(("%d.%m.%Y %H:00")))
     location = models.CharField()
     country = models.CharField()
     condition = models.CharField() ##cloud,rainy,sunny,etc
-    temp_c = models.FloatField()
+    condition_img = models.URLField(default='')
+    temp_f = models.FloatField(default=30)
+    feels_like = models.FloatField(default=30)
     humidity = models.SmallIntegerField()
     uv = models.SmallIntegerField()
     wind_mph = models.SmallIntegerField()
