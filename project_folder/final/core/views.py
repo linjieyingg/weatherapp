@@ -42,7 +42,7 @@ def search_view(request):
 def searchAPI(search_input):
     # url = "https://weatherapi-com.p.rapidapi.com/current.json"
     url = "https://weatherapi-com.p.rapidapi.com/forecast.json"
-    querystring = {"q": search_input}
+    querystring = {"q": search_input, 'days': 3}
     headers = {
         "x-rapidapi-key": "82ce6fe0f2msh1b1cfd285dbcc80p1b3260jsn6c515c923b86",
         "x-rapidapi-host": "weatherapi-com.p.rapidapi.com"
@@ -75,11 +75,11 @@ def update(r):
                 'pressure_in' : hour['pressure_in'],
                 'precip_in': hour['precip_in'],
             }
-            ho = Hourly(**hourly_info)
-            if Hourly.objects.filter(date=ho.date).exists():
-                continue
-            else:
-                Hourly.objects.update_or_create(**hourly_info)
+            # ho = Hourly(**hourly_info)
+            # if Hourly.objects.filter(date=ho.date).exists():
+            #     continue
+            # else:
+            Hourly.objects.update_or_create(**hourly_info)
         observation_info = {
             'date' : day['date'],
             'location': location,
@@ -98,9 +98,9 @@ def update(r):
             'moonset': datetime.strptime(day['astro']['moonset'],"%I:%M %p"),
             'moon_phase': day['astro']['moon_phase'] 
         }
-        obs = Observation(**observation_info)
-        if Observation.objects.filter(date=obs.date).exists():
-            continue
-        else:
-            Observation.objects.update_or_create(**observation_info)
+        # obs = Observation(**observation_info)
+        # if Observation.objects.filter(date=obs.date).exists():
+        #     continue
+        # else:
+        Observation.objects.update_or_create(**observation_info)
     return redirect('hourly/')
