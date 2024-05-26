@@ -15,3 +15,8 @@ HuiWenW - 2024-05-25 02:35
 
 JieyingL - 2024-05-26 11:58
   - Update database from api data
+
+HuiWenW - 2024-05-26 13:27
+  - Finished design doc
+  - Updated display for weather and hourly list views
+  - Debugged weather 3 day forecast

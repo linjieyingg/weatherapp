@@ -2,6 +2,8 @@
 {% load static %}
 
 {% block content %}
+<a href="{% url 'weather:weather_list' %}">Daily Weather</a>
+
 <h1  class="pt-3">Hourly </h1>
 
 <div class="hourly-list">
@@ -12,11 +14,12 @@
             <div class=''>
                 <a href="{% url 'hourly:hourly_detail' hourly.id %}" class="list">
                     {{ hourly.date|date:"H:00" }} 
-                </a>
-                {{hourly.temp_f}}
-                {{hourly.condition_img}} {{hourly.condition}}
-                <i class="bi bi-droplet"></i>{{hourly.precip_in}}
-                <i class="bi bi-wind"></i>{{hourly.wind_dir}} {{hourly.win_mph}}
+                </a><br>
+                {{hourly.temp_f}} <br>
+                <img style="" src={{hourly.condition_img}} alt="image"/> <br>
+                {{hourly.condition}}<br>
+                <i class="bi bi-droplet"></i>{{hourly.precip_in}}<br>
+                <i class="bi bi-wind"></i>{{hourly.wind_dir}} {{hourly.win_mph}}<br><br>
             </div>
             {% endfor %}
         </div>
