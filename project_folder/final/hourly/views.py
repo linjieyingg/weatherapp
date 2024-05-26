@@ -38,28 +38,18 @@ class HourlyDetailView(DetailView):
         return context
 
 def hourly_search_view(request):
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['hourly_search_form'] = HourlySearchForm
-    #     return context
     if request.method == "GET":
         form = HourlySearchForm(request.GET)
         if form.is_valid():
             search_input = form.cleaned_data["Search"]
-            # print(type(search_input))
             search_result = searchAPI(search_input)
-            # return render(request, "hourly/hourly_search_results.html", context={
-            #     "search_input": search_input,
-            #     "search_result": search_result
-            # })
             return update(search_result)
 
 def searchAPI(search_input):
-    # url = "https://weatherapi-com.p.rapidapi.com/current.json"
     url = "https://weatherapi-com.p.rapidapi.com/forecast.json"
-    querystring = {"q": search_input}
+    querystring = {"q": search_input, "days": "3"}
     headers = {
-        "x-rapidapi-key": "82ce6fe0f2msh1b1cfd285dbcc80p1b3260jsn6c515c923b86",
+        "x-rapidapi-key": "de8f6f2a3fmsh850207b34ede80bp17e3d8jsnd9883430d914",
         "x-rapidapi-host": "weatherapi-com.p.rapidapi.com"
     }
     response = requests.get(url, headers=headers, params=querystring)
@@ -72,7 +62,7 @@ def update(r):
     location = r['location']['name']
     country = r['location']['country']
     
-    for  day in r['forecast']['forecastday']:
+    for day in r['forecast']['forecastday']:
         for hour in day['hour']:
             date = hour['time']
             hourly_info = {
@@ -109,7 +99,7 @@ def update(r):
             'uv': day['day']['uv'],
             'sunrise': datetime.strptime(day['astro']['sunrise'],"%I:%M %p"),
             'sunset': datetime.strptime(day['astro']['sunset'],"%I:%M %p"),
-            'moonrise': datetime.strptime(day['astro']['moonrise'],"%I:%M %p"),
+            'moonrise': datetime.strptime(day['astro']['moonrise'],"%I:%M %p"), # Some locations have no moon rise
             'moonset': datetime.strptime(day['astro']['moonset'],"%I:%M %p"),
             'moon_phase': day['astro']['moon_phase'] 
         }
@@ -118,4 +108,4 @@ def update(r):
             continue
         else:
             Observation.objects.update_or_create(**observation_info)
-    return redirect('..')
+    return redirect('.')
