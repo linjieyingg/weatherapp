@@ -20,3 +20,6 @@ HuiWenW - 2024-05-26 13:27
   - Finished design doc
   - Updated display for weather and hourly list views
   - Debugged weather 3 day forecast
+
+JieyingL - 2024-05-26 16:00
+  - Moved search to core
