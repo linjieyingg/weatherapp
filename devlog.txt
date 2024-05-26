@@ -12,3 +12,6 @@ HuiWenW - 2024-05-24 14:50
 
 HuiWenW - 2024-05-25 02:35
   - Finished API connection
+
+JieyingL - 2024-05-26 11:58
+  - Update database from api data
