@@ -80,6 +80,12 @@ def update(r):
             #     continue
             # else:
             Hourly.objects.update_or_create(**hourly_info)
+    
+        moonrise = day['astro']['moonrise']
+        if(moonrise == 'No moonrise'):
+            moonrise= datetime.min
+        else: 
+            moonrise = datetime.strptime(day['astro']['moonrise'],"%I:%M %p")
         observation_info = {
             'date' : day['date'],
             'location': location,
@@ -94,13 +100,9 @@ def update(r):
             'uv': day['day']['uv'],
             'sunrise': datetime.strptime(day['astro']['sunrise'],"%I:%M %p"),
             'sunset': datetime.strptime(day['astro']['sunset'],"%I:%M %p"),
-            'moonrise': datetime.strptime(day['astro']['moonrise'],"%I:%M %p"),
+            'moonrise': moonrise,
             'moonset': datetime.strptime(day['astro']['moonset'],"%I:%M %p"),
             'moon_phase': day['astro']['moon_phase'] 
         }
-        # obs = Observation(**observation_info)
-        # if Observation.objects.filter(date=obs.date).exists():
-        #     continue
-        # else:
         Observation.objects.update_or_create(**observation_info)
     return redirect('hourly/')
