@@ -73,6 +73,28 @@ def update(r):
     country = r['location']['country']
     
     for  day in r['forecast']['forecastday']:
+        for hour in day['hour']:
+            date = hour['time']
+            hourly_info = {
+                'date': hour['time'],
+                'location': location,
+                'country': country,
+                'condition': hour['condition']['text'],
+                'condition_img':hour['condition']['icon'],
+                'temp_f': hour['temp_f'],
+                'feels_like': hour['feelslike_f'],
+                'humidity': hour['humidity'],
+                'uv': hour['uv'],
+                'wind_mph': hour['wind_mph'],
+                'wind_dir': hour['wind_dir'],
+                'pressure_in' : hour['pressure_in'],
+                'precip_in': hour['precip_in'],
+            }
+            ho = Hourly(**hourly_info)
+            if Hourly.objects.filter(date=ho.date).exists():
+                continue
+            else:
+                Hourly.objects.update_or_create(**hourly_info)
         observation_info = {
             'date' : day['date'],
             'location': location,
@@ -92,23 +114,8 @@ def update(r):
             'moon_phase': day['astro']['moon_phase'] 
         }
         obs = Observation(**observation_info)
-        obs.save()
-        # for hour in day['hour']:
-        #     hourly_info = {
-        #         'date': hour['time'],
-        #         'location': location,
-        #         'country': country,
-        #         'condition': hour['condition']['text'],
-        #         'condition_img':hour['condition']['icon'],
-        #         'temp_f': hour['temnp_f'],
-        #         'feels_like': hour['feelslike_f'],
-        #         'humidity': hour['humidity'],
-        #         'uv': hour['uv'],
-        #         'wind_mph': hour['wind_mph'],
-        #         'wind_dir': hour['wind_dir'],
-        #         'pressure_in' : hour['pressure_in'],
-        #         'precip_in': hour['precip_in'],
-        #         # 'observation_id': ,
-        #     }
-        # print(hourly_info, observation_info)
-    return redirect('hourly/hourly_list')
+        if Observation.objects.filter(date=obs.date).exists():
+            continue
+        else:
+            Observation.objects.update_or_create(**observation_info)
+    return redirect('..')

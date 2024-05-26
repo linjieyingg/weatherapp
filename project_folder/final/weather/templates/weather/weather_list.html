@@ -18,20 +18,20 @@
         <div>
             {% for weather in object_list %}
             <a href="{% url 'weather:weather_detail' weather.id %}" class="list">
-            {% if weather.is_today %}
+            {% comment %} {% if weather.is_today %}
                 {{ weather.date|date:"l d" }}  
                 
                 {{weather.temp_f}} <img style="" src={{ weather.condition_img }} alt="image"/> 
                 {{weather.condition}}
                 <i class="bi bi-droplet"></i>{{weather.precip_in}}
                 <i class="bi bi-wind"></i>{{weather.wind_dir}} {{weather.win_mph}}
-            {% endif %}
-            {{ weather.date|date:"l d" }}
+            {% endif %} {% endcomment %}
+            {{ weather.date|date:"l d" }}</a>
             {{weather.max_f}}/{{weather.min_f}} <img style="" src={{ weather.condition_img }} alt="image"/> 
                 {{weather.condition}}
                 <i class="bi bi-droplet"></i>{{weather.precip_in}}
-                <i class="bi bi-wind"></i>{{weather.wind_dir}} {{weather.win_mph}}
-            </a><br/>
+                <i class="bi bi-wind"></i> {{weather.wind_mph}} MPH
+            <br/>
             {% endfor %}
         </div>
        
