@@ -4,6 +4,14 @@
 {% block content %}
 <h1  class="pt-3">Hourly </h1>
 
+{% block search %}
+<form action="{% url 'hourly:hourly_search' %}" method="get">
+    {% csrf_token %}
+    {{hourly_search_form.as_p}}
+</form>
+{% endblock search %}
+
+
 <div class="hourly-list">
 
     <div>

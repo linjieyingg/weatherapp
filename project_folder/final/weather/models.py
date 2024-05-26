@@ -9,13 +9,10 @@ class Observation(models.Model):
     country = models.CharField()
     condition = models.CharField() ##cloud,rainy,sunny,etc
     condition_img = models.URLField(default='')
-    temp_f = models.FloatField()
     humidity = models.SmallIntegerField()
     max_f = models.FloatField()
     min_f = models.FloatField()
     wind_mph = models.SmallIntegerField()
-    wind_dir = models.CharField()
-    pressure_in = models.SmallIntegerField()
     precip_in = models.SmallIntegerField()
     sunrise = models.DateTimeField()
     sunset = models.DateTimeField()

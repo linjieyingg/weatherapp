@@ -3,3 +3,12 @@ JieyingL - 2024-05-23 19:00
 
 JieyingL - 2024-05-24 17:40
   - Worked on weather list template
+
+HuiWenW - 2024-05-23 14:50
+  - General setup
+
+HuiWenW - 2024-05-24 14:50
+  - Began working on API connection
+
+HuiWenW - 2024-05-25 02:35
+  - Finished API connection
