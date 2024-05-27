@@ -4,34 +4,18 @@
 {% block content %}
 <a href="{% url 'hourly:hourly_list' %}">Hourly Weather</a>
 
-<h1  class="pt-3">3 Day Weather</h1>
+<h1  class="pt-3">3 Day Weather in {{ observations.0.location }} </h1>
 
 <div class="weather-list">
-    {% comment %} <div class="my-2">
-        <form action="{% url 'weather:search' %}" method = 'get'>
-            <div class="inner-addon left-addon">
-                <i class="bi bi-search"></i>
-                <input type="text" name="q" placeholder="Search Artist Name">
-            </div>
-        </form>
-    </div>
-     {% endcomment %}
     <div >
         <div>
             {% for weather in observations %}
-            {% comment %} <a href="{% url 'hourly:hourly_list' %}" class="list"> {% endcomment %}
-                {% comment %} <a href="{% url 'hourly:hourly_list' weather.weather %}" class="list"> {% endcomment %}
+
                     <a href="{% url 'weather:weather_detail' weather.id %}">
-            {% comment %} {% if weather.is_today %}
-                {{ weather.date|date:"l d" }}  
-                
-                {{weather.temp_f}} <img style="" src={{ weather.condition_img }} alt="image"/> 
-                {{weather.condition}}
-                <i class="bi bi-droplet"></i>{{weather.precip_in}}
-                <i class="bi bi-wind"></i>{{weather.wind_dir}} {{weather.win_mph}}
-            {% endif %} {% endcomment %}
-            {{ weather.date|date:"l d" }}</a>
-            {{weather.max_f}}/{{weather.min_f}} <img style="" src={{ weather.condition_img }} alt="image"/> 
+
+                {{ weather.date|date:"l d" }}</a>
+                {{weather.max_f}}/{{weather.min_f}} 
+                <img style="" src={{ weather.condition_img }} alt="image"/> 
                 {{weather.condition}}
                 <i class="bi bi-droplet"></i>{{weather.precip_in}}
                 <i class="bi bi-wind"></i> {{weather.wind_mph}} MPH
