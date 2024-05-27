@@ -11,7 +11,8 @@
     <h1>{{ object.date }}</h1>
     Max: {{object.max_f}}<br />
     Min: {{object.min_f}}<br />
-    UV Index: {{object.uv}}<br /><br>
+    UV Index: {{object.uv}} out of 11<br /><br>
+
     {% for hourly in hourlys %}
         Time: {{ hourly.date }} <br>
         Temperature: {{ hourly.temp_f }} <br>
@@ -19,4 +20,5 @@
         <img src={{ hourly.condition_img }}><br>
         <br/>
     {% endfor%}
+
 {% endblock content %}

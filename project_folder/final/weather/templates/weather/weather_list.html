@@ -11,7 +11,7 @@
         <div>
             {% for weather in observations %}
 
-                    <a href="{% url 'weather:weather_detail' weather.id %}">
+                    <a href="{% url 'weather:weather_detail_bis' weather.id %}">
 
                 {{ weather.date|date:"l d" }}</a>
                 {{weather.max_f}}/{{weather.min_f}} 
