@@ -30,3 +30,6 @@ HuiWenW - 2024-05-27 00:58
 
 JieyingL - 2024-05-27 8:54
   - Linked each hourly record to its respective observation(daily record)
+
+JieyingL - 2024-05-27 10:55
+  - Fixed observation-hourly bug
