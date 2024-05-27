@@ -23,3 +23,6 @@ HuiWenW - 2024-05-26 13:27
 
 JieyingL - 2024-05-26 16:00
   - Moved search to core
+
+JieyingL - 2024-05-27 8:54
+  - Linked each hourly record to its respective observation(daily record)
