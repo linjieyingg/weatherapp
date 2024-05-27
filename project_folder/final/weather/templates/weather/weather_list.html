@@ -21,7 +21,7 @@
             {% for weather in observations %}
             {% comment %} <a href="{% url 'hourly:hourly_list' %}" class="list"> {% endcomment %}
                 {% comment %} <a href="{% url 'hourly:hourly_list' weather.weather %}" class="list"> {% endcomment %}
-                    <a href="{% url 'weather:hourly_list' weather.id %}">
+                    <a href="{% url 'weather:weather_detail' weather.id %}">
             {% comment %} {% if weather.is_today %}
                 {{ weather.date|date:"l d" }}  
                 
