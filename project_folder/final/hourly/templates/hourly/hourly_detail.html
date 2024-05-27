@@ -3,17 +3,17 @@
 {% block content %}
 
 <a href="{% url 'weather:weather_list' %}">Observations</a>
-<a href="{% url 'weather:weather_update' object.id %}">Update Observation</a><br />
+{% comment %} <a href="{% url 'weather:weather_update' hourly_details.id %}">Update Observation</a><br /> {% endcomment %}
 
     <div id="app">
         <app></app>
     </div>
 
-    <h1>{{ object.date }}</h1>
-    Temperature: {{object.temp_f}}<br />
-    UV Index: {{object.uv}} out of 11<br />
-    Rain Amount: {{object.precip_in}}
-    Humidity: {{object.humidity}}
-    Feels like {{object.feels_like}}
+    <h1>{{ hourly_details.date }}</h1>
+    Temperature: {{hourly_details.temp_f}}<br />
+    UV Index: {{hourly_details.uv}} out of 11<br />
+    Rain Amount: {{hourly_details.precip_in}}
+    Humidity: {{hourly_details.humidity}}
+    Feels like {{hourly_details.feels_like}}
 
 {% endblock content %}

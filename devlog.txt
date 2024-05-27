@@ -22,5 +22,11 @@ HuiWenW - 2024-05-26 13:27
 HuiWenW - 2024-05-26 15:39
   - Debugged weather 3 day forecast
 
+JieyingL - 2024-05-26 16:00
+  - Moved search to core
+
 HuiWenW - 2024-05-27 00:58
   - Connected Observation (Weather) to Hourly, has some display bugs
+
+JieyingL - 2024-05-27 8:54
+  - Linked each hourly record to its respective observation(daily record)

@@ -58,8 +58,33 @@ def update(r):
     country = r['location']['country']
     
     for day in r['forecast']['forecastday']:
+        moonrise = day['astro']['moonrise']
+        if(moonrise == 'No moonrise'):
+            moonrise= datetime.min
+        else: 
+            moonrise = datetime.strptime(day['astro']['moonrise'],"%I:%M %p")
+        observation_info = {
+            'date' : day['date'],
+            'location': location,
+            'country' : country,
+            'condition' : day['day']['condition']['text'],
+            'condition_img' : day['day']['condition']['icon'],
+            'humidity': day['day']['avghumidity'],
+            'max_f': day['day']['maxtemp_f'],
+            'min_f': day['day']['mintemp_f'],
+            'wind_mph': day['day']['maxwind_mph'],
+            'precip_in': day['day']['totalprecip_in'],
+            'uv': day['day']['uv'],
+            'sunrise': datetime.strptime(day['astro']['sunrise'],"%I:%M %p"),
+            'sunset': datetime.strptime(day['astro']['sunset'],"%I:%M %p"),
+            'moonrise': moonrise,
+            'moonset': datetime.strptime(day['astro']['moonset'],"%I:%M %p"),
+            'moon_phase': day['astro']['moon_phase'] 
+        }
+        Observation.objects.update_or_create(**observation_info)
+        
         for hour in day['hour']:
-            date = hour['time']
+            date = datetime.strptime(str(hour['time']),'%Y-%m-%d %H:%M').date()
             hourly_info = {
                 'date': hour['time'],
                 'location': location,
@@ -75,32 +100,8 @@ def update(r):
                 'pressure_in' : hour['pressure_in'],
                 'precip_in': hour['precip_in'],
             }
-            # ho = Hourly(**hourly_info)
-            # if Hourly.objects.filter(date=ho.date).exists():
-            #     continue
-            # else:
-            Hourly.objects.update_or_create(**hourly_info)
-        observation_info = {
-            'date' : day['date'],
-            'location': location,
-            'country' : country,
-            'condition' : day['day']['condition']['text'],
-            'condition_img' : day['day']['condition']['icon'],
-            'humidity': day['day']['avghumidity'],
-            'max_f': day['day']['maxtemp_f'],
-            'min_f': day['day']['mintemp_f'],
-            'wind_mph': day['day']['maxwind_mph'],
-            'precip_in': day['day']['totalprecip_in'],
-            'uv': day['day']['uv'],
-            'sunrise': datetime.strptime(day['astro']['sunrise'],"%I:%M %p"),
-            'sunset': datetime.strptime(day['astro']['sunset'],"%I:%M %p"),
-            'moonrise': datetime.strptime(day['astro']['moonrise'],"%I:%M %p"),
-            'moonset': datetime.strptime(day['astro']['moonset'],"%I:%M %p"),
-            'moon_phase': day['astro']['moon_phase'] 
-        }
-        # obs = Observation(**observation_info)
-        # if Observation.objects.filter(date=obs.date).exists():
-        #     continue
-        # else:
-        Observation.objects.update_or_create(**observation_info)
+            id = Observation.objects.get(date=date)
+            Hourly.objects.update_or_create(**hourly_info, observation_id=id)
+
+        
     return redirect('hourly/')
