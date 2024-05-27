@@ -23,7 +23,7 @@ import pandas as pd
 class ObservationListView(ListView):
     model = Observation
     context_object_name = 'observations'
-    template_name = 'weather/observation_list.html'
+    template_name = 'weather/weather_list.html'
     
     def get_queryset(self):
         return Observation.objects.order_by('date')

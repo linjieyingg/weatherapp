@@ -96,6 +96,6 @@ def update(r):
                 'precip_in': hour['precip_in'],
             }
             id = Observation.objects.get(date=date)
-            Hourly.objects.update_or_create(**hourly_info, observation=id)
+            Hourly.objects.update_or_create(**hourly_info, observation_id=id)
         
     return redirect('hourly/')

@@ -1,5 +1,5 @@
 <template>
-
+    HIIIIII
     <div>
         <a :href="this.weather_list_url">Observation List</a><br/>
         <a :href="this.weather_update_url">Update Observation</a><br/>
