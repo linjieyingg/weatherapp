@@ -10,7 +10,8 @@
 
     <div>
         <div>
-            {% for hourly in object_list %}
+            {% for hourly in hourlys %}
+            {{ hourly.date }}
             <div class=''>
                 <a href="{% url 'hourly:hourly_detail' hourly.id %}" class="list">
                     {{ hourly.date|date:"H:00" }} 

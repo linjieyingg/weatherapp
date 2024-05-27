@@ -25,6 +25,9 @@ class ObservationListView(ListView):
     context_object_name = 'observations'
     template_name = 'weather/observation_list.html'
     
+    def get_queryset(self):
+        return Observation.objects.order_by('date')
+    
 class ObservationDetailView(DetailView):
     model = Observation
     context_object_name = 'observation_details'
@@ -32,6 +35,7 @@ class ObservationDetailView(DetailView):
     
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
         context['hourlys'] = Hourly.objects.filter(observation_id=self.get_object())
         context = super().get_context_data(**kwargs)
         return context
