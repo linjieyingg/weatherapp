@@ -2,7 +2,7 @@
 {% load django_vite %}
 {% block content %}
 
-<a href="{% url 'weather:weather_list' %}">Observations</a>
+<a href="{% url 'weather:weather_list' %}">Daily Weather</a>
 {% comment %} <a href="{% url 'weather:weather_update' object.id %}">Update Observation</a><br /> {% endcomment %}
 
     <div id="app">
@@ -11,10 +11,12 @@
     <h1>{{ object.date }}</h1>
     Max: {{object.max_f}}<br />
     Min: {{object.min_f}}<br />
-    UV Index: {{object.uv}}<br />
-    {% for hourly in hourlys%}
-        
-        {{hourly.date}}
+    UV Index: {{object.uv}}<br /><br>
+    {% for hourly in hourlys %}
+        Time: {{ hourly.date }} <br>
+        Temperature: {{ hourly.temp_f }} <br>
+        Condition: {{ hourly.condition }} <br>
+        <img src={{ hourly.condition_img }}><br>
         <br/>
     {% endfor%}
 {% endblock content %}
