@@ -27,13 +27,13 @@ class ObservationListView(ListView):
     
 class ObservationDetailView(DetailView):
     model = Observation
-    context_object_name = 'observation_details'
-    template_name = 'weather/observation_detail.html'
+    context_object_name = 'object'
+    template_name = 'weather/weather_detail.html'
     
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
-        context['hourlys'] = Hourly.objects.filter(observation_id=self.get_object())
         context = super().get_context_data(**kwargs)
+        context['hourlys'] = Hourly.objects.filter(observation_id=self.get_object().id)
         return context
 
 class ObservationDetailbisView(TemplateView):

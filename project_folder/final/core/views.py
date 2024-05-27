@@ -58,29 +58,6 @@ def update(r):
     country = r['location']['country']
     
     for day in r['forecast']['forecastday']:
-        for hour in day['hour']:
-            date = hour['time']
-            hourly_info = {
-                'date': hour['time'],
-                'location': location,
-                'country': country,
-                'condition': hour['condition']['text'],
-                'condition_img':hour['condition']['icon'],
-                'temp_f': hour['temp_f'],
-                'feels_like': hour['feelslike_f'],
-                'humidity': hour['humidity'],
-                'uv': hour['uv'],
-                'wind_mph': hour['wind_mph'],
-                'wind_dir': hour['wind_dir'],
-                'pressure_in' : hour['pressure_in'],
-                'precip_in': hour['precip_in'],
-            }
-            # ho = Hourly(**hourly_info)
-            # if Hourly.objects.filter(date=ho.date).exists():
-            #     continue
-            # else:
-            Hourly.objects.update_or_create(**hourly_info)
-    
         moonrise = day['astro']['moonrise']
         if(moonrise == 'No moonrise'):
             moonrise= datetime.min
@@ -105,4 +82,26 @@ def update(r):
             'moon_phase': day['astro']['moon_phase'] 
         }
         Observation.objects.update_or_create(**observation_info)
+        
+        for hour in day['hour']:
+            date = datetime.strptime(str(hour['time']),'%Y-%m-%d %H:%M').date()
+            hourly_info = {
+                'date': hour['time'],
+                'location': location,
+                'country': country,
+                'condition': hour['condition']['text'],
+                'condition_img':hour['condition']['icon'],
+                'temp_f': hour['temp_f'],
+                'feels_like': hour['feelslike_f'],
+                'humidity': hour['humidity'],
+                'uv': hour['uv'],
+                'wind_mph': hour['wind_mph'],
+                'wind_dir': hour['wind_dir'],
+                'pressure_in' : hour['pressure_in'],
+                'precip_in': hour['precip_in'],
+            }
+            id = Observation.objects.get(date=date)
+            Hourly.objects.update_or_create(**hourly_info, observation_id=id)
+
+        
     return redirect('hourly/')
