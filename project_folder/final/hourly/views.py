@@ -19,9 +19,9 @@ class HourlyListView(ListView):
     model = Hourly
     context_object_name = 'hourlys'
     
-    def get_queryset(self):
-        observation_id = self.kwargs['weather_id']
-        return Hourly.objects.filter(observation_id=observation_id).order_by('observation_id')
+    # def get_queryset(self):
+    #     observation_id = self.kwargs['weather_id']
+    #     return Hourly.objects.filter(observation_id=observation_id).order_by('observation_id')
     
     def get_context_data(self, **kwargs):
         context = super(HourlyListView, self).get_context_data(**kwargs)
