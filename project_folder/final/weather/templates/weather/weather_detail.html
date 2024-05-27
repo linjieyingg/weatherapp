@@ -5,10 +5,14 @@
 <a href="{% url 'weather:weather_list' %}">Daily Weather</a>
 {% comment %} <a href="{% url 'weather:weather_update' object.id %}">Update Observation</a><br /> {% endcomment %}
 
+
     <div id="app">
         <app></app>
     </div>
     <h1>{{ object.date }}</h1>
+    <a href="{% url 'weather:weather_update' pk=object.id %}">add notes</a><br />
+    <b>Notes:</b> 
+    {{object.notes}}<br />
     Max: {{object.max_f}}<br />
     Min: {{object.min_f}}<br />
     UV Index: {{object.uv}}<br /><br>

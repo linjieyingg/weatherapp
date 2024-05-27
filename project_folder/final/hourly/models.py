@@ -18,7 +18,7 @@ class Hourly(models.Model):
     pressure_in = models.SmallIntegerField()
     precip_in = models.SmallIntegerField()
     # observation_id = models.ForeignKey(Observation, null=True, on_delete=models.SET_NULL)
-    observation = models.ForeignKey(Observation, on_delete=models.PROTECT, related_name='hourlys')
+    observation = models.ForeignKey(Observation, on_delete=models.PROTECT, related_name='hourlys', null=True)
 
     class Meta:
         ordering = ['date']

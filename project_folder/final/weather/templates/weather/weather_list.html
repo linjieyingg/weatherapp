@@ -19,6 +19,9 @@
                 {{weather.condition}}
                 <i class="bi bi-droplet"></i>{{weather.precip_in}}
                 <i class="bi bi-wind"></i> {{weather.wind_mph}} MPH
+                {% comment %} <a href="{% url 'weather:weather_form' weather.id %}">
+                notes
+                </a> {% endcomment %}
             <br/>
             {% endfor %}
         </div>

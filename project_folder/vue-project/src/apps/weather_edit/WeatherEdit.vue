@@ -1,10 +1,11 @@
 <template>
+here
     <div>
         This is the form coming from django, displayed in vue. <br><br>
     </div>
 
     With fetch this time
-    <div v-if="form_error">
+    <!-- <div v-if="form_error">
         <ul>
             <li v-for="(error, index) in form_error">
                 {{error}}
@@ -13,15 +14,11 @@
     </div>
     <div v-if="form_updated">
         {{ form_updated }}
-    </div>
+    </div> -->
 
-    <div>
+    <!-- <div> 
       <form method="post" class="form">
         <input type="hidden" name="csrfmiddlewaretoken" v-bind:value="csrf_token">
-        <p>
-          <label for="id_date">Date:</label><br>
-          <input type="text" name="date" v-model="weather_date" maxlength="100" required="" id="id_date">
-        </p>
         <p>
           <label for="id_teacher">Teacher:</label><br>
           <input type="text" name="teacher" v-model="course_teacher" maxlength="100" required="" id="id_teacher">
@@ -46,11 +43,12 @@
         </p>
       <button type="submit" class="btn btn-primary" @click.prevent="submit_form_fetch" :disabled="submitting_form">Submit</button>
     </form>
-  </div>
+  </div>-->
 </template>
 
 <script>
-  import Multiselect from 'vue-multiselect'
+import Multiselect from 'vue-multiselect'
+
   export default {
     name: 'App',
     components: { Multiselect },
@@ -148,5 +146,6 @@
       }
     }
   }
+  
 </script>
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>

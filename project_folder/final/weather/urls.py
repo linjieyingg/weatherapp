@@ -8,6 +8,9 @@ app_name = "weather"
 urlpatterns = [
     path('', views.ObservationListView.as_view(template_name='weather/weather_list.html'), name="weather_list"),
     path('<int:pk>', views.ObservationDetailView.as_view(), name="weather_detail"),
+    # path('form', views.WeatherCreateView.as_view(), name="observation_form"),
+    path("update/<int:pk>", views.UpdateView.as_view(),
+    name="weather_update"),
     # path('<int:weather_id>/hourly/', HourlyListView.as_view(), name='hourly_list'),
     # path('song_search',  views.SearchSongsListView.as_view(template_name='songs/song_search.html'), name="song_search"),
 ]

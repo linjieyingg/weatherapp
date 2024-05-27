@@ -63,10 +63,79 @@ class ObservationUpdatebisView(View):
         # Create a form instance with POST data
         form = ObservationForm(request.POST, instance=weather)
         if form.is_valid():
-            form.save()
+            form.save() 
             return JsonResponse({"success": True})
         else:
             return JsonResponse({"success": False, "errors": form.errors})
+        
+# class WeatherCreateView(CreateView):
+#     model = Observation
+#     form_class = ObservationForm
+
+#     def form_valid(self, form):
+#         response = super().form_valid(form)
+#         messages.add_message(
+#             self.request, messages.SUCCESS)
+#             # ,
+#             # 'Movie has been created'.format(
+#             #     movie_name=self.object.name))
+#         print('here', response)
+#         return response
+    
+#     def get_context_data(self, **kwargs):
+#         # Call the base implementation first to get a context
+#         context = super().get_context_data(**kwargs)
+#         # context["subject_list"] = Subject.objects.all()
+#         print('contec', context)
+#         return context
+    
+class UpdateView(UpdateView):
+    model = Observation
+    #fields = ['name']
+    form_class = ObservationForm
+    
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.add_message(
+            self.request, 
+            messages.SUCCESS, "updated"
+            )
+            # ,
+            # 'Movie has been updated'.format(
+            #     movie_name=self.object.name
+            # ),
+        
+        return response
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # movie_dico = model_to_dict(self.object)
+        # movie_dico["running_time"] = movie_dico["running_time"].strftime(
+        #     "%H:%M:%S"
+        # )
+        # movie_dico["release_date"] = movie_dico["release_date"].strftime(
+        #    "%Y-%m-%d"
+        # )
+        # actors = movie_dico["actors"]
+        # movie_actor_list = []
+        # for actor in actors:
+        #     movie_actor_list.append({"id": actor.id, "name": actor.name})
+        # movie_dico["actors"] = movie_actor_list
+        # actor_list = list(Actor.objects.all().values())
+        # context["movie_dict"] = movie_dico
+        # context["actor_list"] = actor_list
+        # print("context", context)
+        return context
+
+    # comment the following line to show the error about not having an
+    # success_url
+    # def get_success_url(self):
+    #     return reverse_lazy("movies:movie_detail", args=[self.object.id])
+
+    # comment the following line to show the error about not having an
+    # success_url
+    def get_success_url(self):
+        return reverse_lazy("weather:weather_detail", args=[self.object.id])       
 
 def graphic(request):
     pos = np.arange(10)+ 2 
