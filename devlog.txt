@@ -10,7 +10,7 @@ HuiWenW - 2024-05-23 14:50
 HuiWenW - 2024-05-24 14:50
   - Began working on API connection
 
-HuiWenW - 2024-05-25 02:35
+HuiWenW - 2024-05-26 02:35
   - Finished API connection
 
 JieyingL - 2024-05-26 11:58
@@ -18,11 +18,15 @@ JieyingL - 2024-05-26 11:58
 
 HuiWenW - 2024-05-26 13:27
   - Finished design doc
-  - Updated display for weather and hourly list views
+  
+HuiWenW - 2024-05-26 15:39
   - Debugged weather 3 day forecast
 
 JieyingL - 2024-05-26 16:00
   - Moved search to core
+
+HuiWenW - 2024-05-27 00:58
+  - Connected Observation (Weather) to Hourly, has some display bugs
 
 JieyingL - 2024-05-27 8:54
   - Linked each hourly record to its respective observation(daily record)
