@@ -31,12 +31,7 @@ def search_view(request):
         form = SearchForm(request.GET)
         if form.is_valid():
             search_input = form.cleaned_data["Search"]
-            # print(type(search_input))
             search_result = searchAPI(search_input)
-            # return render(request, "hourly/hourly_search_results.html", context={
-            #     "search_input": search_input,
-            #     "search_result": search_result
-            # })
             return update(search_result)
 
 def searchAPI(search_input):
@@ -101,7 +96,6 @@ def update(r):
                 'precip_in': hour['precip_in'],
             }
             id = Observation.objects.get(date=date)
-            Hourly.objects.update_or_create(**hourly_info, observation_id=id)
-
+            Hourly.objects.update_or_create(**hourly_info, observation=id)
         
     return redirect('hourly/')
