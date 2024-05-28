@@ -5,53 +5,12 @@ here
     </div>
 
     With fetch this time
-    <!-- <div v-if="form_error">
-        <ul>
-            <li v-for="(error, index) in form_error">
-                {{error}}
-            </li>
-        </ul>
-    </div>
-    <div v-if="form_updated">
-        {{ form_updated }}
-    </div> -->
 
-    <!-- <div> 
-      <form method="post" class="form">
-        <input type="hidden" name="csrfmiddlewaretoken" v-bind:value="csrf_token">
-        <p>
-          <label for="id_teacher">Teacher:</label><br>
-          <input type="text" name="teacher" v-model="course_teacher" maxlength="100" required="" id="id_teacher">
-        </p>
-        <p>
-          <label for="id_grade">Grade:</label><br>
-          <select name="grade" v-model="course_grade" maxlength="100" required="" id="id_grade">
-            <option value="9">9</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
-          </select>
-        </p>
-        <p>
-          <label for="id_students">Students:</label><br>
-          <select hidden name="students" required="" id="id_students" multiple="">
-            <option v-for="student in student_list" :value="student.id" selected=""></option>
-          </select>
-          <Multiselect v-model="student_list" :options="student_list_source" :multiple="true" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="Choose the student(s)" label="name" track-by="name" :preselect-first="true" style="display:inline-block;width: 300px;padding-bottom:10px;padding-left:10px">
-            <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length" v-show="!isOpen">{{ values.length }} options selected</span></template>
-          </Multiselect>
-        </p>
-      <button type="submit" class="btn btn-primary" @click.prevent="submit_form_fetch" :disabled="submitting_form">Submit</button>
-    </form>
-  </div>-->
 </template>
 
 <script>
-import Multiselect from 'vue-multiselect'
-
   export default {
     name: 'App',
-    components: { Multiselect },
     data: function () {
       return {
         submitting_form: false,
@@ -148,4 +107,3 @@ import Multiselect from 'vue-multiselect'
   }
   
 </script>
-<style src="vue-multiselect/dist/vue-multiselect.css"></style>

@@ -1,5 +1,4 @@
 from django.db import models
-from weather.models import Observation
 from datetime import datetime
 # Create your models here.
 
@@ -17,11 +16,14 @@ class Hourly(models.Model):
     wind_dir = models.CharField()
     pressure_in = models.SmallIntegerField()
     precip_in = models.SmallIntegerField()
+<<<<<<< HEAD
     # observation_id = models.ForeignKey(Observation, null=True, on_delete=models.SET_NULL)
     observation = models.ForeignKey(Observation, on_delete=models.PROTECT, related_name='hourlys', null=True)
+=======
+>>>>>>> main
 
     class Meta:
         ordering = ['date']
 
     def __str__(self):
-    	return self.date
+    	return str(self.date)

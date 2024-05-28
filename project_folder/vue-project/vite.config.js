@@ -1,9 +1,8 @@
-import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
-const backendPath = '../manager'
+const backendPath = '../final'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -20,7 +19,7 @@ export default defineConfig({
     outDir: backendPath + '/core/static/vite/',
     rollupOptions: {
       input: {
-        vue_student_edit: "./src/apps/weather_edit/weather_edit.js"
+        vue_weather_get: "./src/apps/weather_get/weather_get.js"
       },
     },
   }

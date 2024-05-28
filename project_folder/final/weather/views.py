@@ -23,7 +23,7 @@ import pandas as pd
 class ObservationListView(ListView):
     model = Observation
     context_object_name = 'observations'
-    template_name = 'weather/observation_list.html'
+    template_name = 'weather/weather_list.html'
     
     def get_queryset(self):
         return Observation.objects.order_by('date')
@@ -36,7 +36,6 @@ class ObservationDetailView(DetailView):
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
-        context['hourlys'] = Hourly.objects.filter(observation_id=self.get_object().id)
         return context
 
 class ObservationDetailbisView(TemplateView):
@@ -55,6 +54,9 @@ class ObservationDetailJsView(View):
     def get(self, request, *args, **kwargs):
         weather = get_object_or_404(Observation, pk=self.kwargs["pk"])
         weather_js = model_to_dict(weather)
+        weather_js["hourlys"] = []
+        for hourly in weather.hourlys.values():
+            weather_js["hourlys"].append(hourly)
         return JsonResponse({"weather": weather_js})
 
 class ObservationUpdatebisView(View):

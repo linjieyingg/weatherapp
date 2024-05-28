@@ -36,3 +36,7 @@ JieyingL - 2024-05-27 10:55
 
 HuiWenW - 2024-05-27 14:53
   - Fixed display for hourly weather in daily weather details page -> context['hourlys'] was null due to observation_id being null for all entries in the database
+
+JieyingL - 2024-05-27 20:38
+  - Changed hourly-observation to manytomany relationship
+  - Vue detail app 
