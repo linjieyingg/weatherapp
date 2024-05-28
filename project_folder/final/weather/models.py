@@ -20,6 +20,7 @@ class Observation(models.Model):
     moonset = models.DateTimeField()
     moon_phase = models.CharField()
     uv = models.SmallIntegerField(default = 1)
+    note = models.CharField(default='')
     
     @property
     def is_today(self):
