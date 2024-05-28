@@ -37,7 +37,6 @@ class ObservationListView(ListView):
         
         fig, ax = plt.subplots(figsize=(8, 6))
         date = data['date']
-        temperature = data['max_f']
 
         fig, ax = plt.subplots()
         plt.plot(date, data['max_f'], label='Maximum Temperature (°F)')
