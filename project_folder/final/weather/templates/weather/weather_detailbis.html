@@ -4,7 +4,7 @@
 {% block head %}
     <script type="text/javascript">
         var ext_weather_id = {{ weather_id }}
-        {% comment %} var ext_hourlys = '{{hourlys}}' {% endcomment %}
+        {% comment %} var ext_hourlys = {{hourlys}} {% endcomment %}
         var ext_weather_list_url = '{% url 'weather:weather_list' %}'
         var ext_weather_detail_js_url = '{% url 'weather:weather_detail_js' weather_id %}'
         var ext_weather_update_url = '{% url 'weather:weather_update' weather_id %}'

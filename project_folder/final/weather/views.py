@@ -57,6 +57,7 @@ class ObservationDetailJsView(View):
         weather_js["hourlys"] = []
         for hourly in weather.hourlys.values():
             weather_js["hourlys"].append(hourly)
+            print(hourly)
         return JsonResponse({"weather": weather_js})
 
 class ObservationUpdatebisView(View):

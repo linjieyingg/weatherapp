@@ -7,14 +7,14 @@
         Min: {{ this.weather.min_f }}<br/>
         Average humidity: {{ this.weather.humidity }}<br/>
     </div>
-    <!-- <div>
+    <div>
         <span v-for="hourly in this.hourlys">
             Time: {{ hourly.date }} <br>
             Temperature: {{ hourly.temp_f }} <br>
             Condition: {{ hourly.condition }} <br>
-            <img src={{ hourly.condition_img }}><br>
+            <!-- <img src={{ hourly.condition_img }}><br> -->
             <br/></span>
-    </div>hi -->
+    </div>hi
 </template>
     
 <script>
