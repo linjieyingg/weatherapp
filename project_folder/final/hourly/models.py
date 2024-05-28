@@ -23,4 +23,4 @@ class Hourly(models.Model):
         ordering = ['date']
 
     def __str__(self):
-    	return self.date
+    	return str(self.date)
