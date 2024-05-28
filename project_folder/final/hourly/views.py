@@ -36,3 +36,4 @@ class HourlyDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['hourly_search_form'] = HourlySearchForm
         return context
+
