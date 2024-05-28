@@ -15,6 +15,7 @@
         {{ form_updated }}
     </div>
 
+<<<<<<< Updated upstream
     <div>
       <form method="post" class="form">
         <input type="hidden" name="csrfmiddlewaretoken" v-bind:value="csrf_token">
@@ -47,13 +48,13 @@
       <button type="submit" class="btn btn-primary" @click.prevent="submit_form_fetch" :disabled="submitting_form">Submit</button>
     </form>
   </div>
+=======
+>>>>>>> Stashed changes
 </template>
 
 <script>
-  import Multiselect from 'vue-multiselect'
   export default {
     name: 'App',
-    components: { Multiselect },
     data: function () {
       return {
         submitting_form: false,

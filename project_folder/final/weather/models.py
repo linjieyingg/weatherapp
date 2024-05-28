@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import date
+from hourly.models import Hourly
 
 # Create your models here.
 
@@ -20,6 +21,7 @@ class Observation(models.Model):
     moonset = models.DateTimeField()
     moon_phase = models.CharField()
     uv = models.SmallIntegerField(default = 1)
+    hourlys = models.ManyToManyField(Hourly)
     note = models.CharField(default='')
     
     @property
@@ -30,7 +32,7 @@ class Observation(models.Model):
         ordering = ['date']
         
     def __str__(self):
-    	return self.date
+    	return str(self.date)
     
     
   

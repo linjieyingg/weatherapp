@@ -36,7 +36,6 @@ class ObservationDetailView(DetailView):
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
-        context['hourlys'] = Hourly.objects.filter(observation_id=self.get_object().id)
         return context
 
 class ObservationDetailbisView(TemplateView):
@@ -48,7 +47,6 @@ class ObservationDetailbisView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['hourlys'] = Hourly.objects.filter(observation_id=self.kwargs["pk"])
         context['weather_id'] = self.kwargs["pk"]
         return context
     
@@ -56,9 +54,9 @@ class ObservationDetailJsView(View):
     def get(self, request, *args, **kwargs):
         weather = get_object_or_404(Observation, pk=self.kwargs["pk"])
         weather_js = model_to_dict(weather)
-        # for hourly in Hourly.objects.filter(observation_id=self.kwargs["pk"]):
-        #     weather_js["hourlys"].append(hourly)
-        # print(weather_js)
+        weather_js["hourlys"] = []
+        for hourly in weather.hourlys.values():
+            weather_js["hourlys"].append(hourly)
         return JsonResponse({"weather": weather_js})
 
 class ObservationUpdatebisView(View):

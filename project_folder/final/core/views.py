@@ -95,7 +95,10 @@ def update(r):
                 'pressure_in' : hour['pressure_in'],
                 'precip_in': hour['precip_in'],
             }
+            
+            Hourly.objects.update_or_create(**hourly_info)
             id = Observation.objects.get(date=date)
-            Hourly.objects.update_or_create(**hourly_info, observation_id=id)
-        
+            hourly = Hourly.objects.get(date=datetime.strptime(str(hour['time']),'%Y-%m-%d %H:00'))
+            id.hourlys.add(hourly)
+            id.save()
     return redirect('hourly/')
