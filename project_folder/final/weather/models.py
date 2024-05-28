@@ -21,12 +21,8 @@ class Observation(models.Model):
     moonset = models.DateTimeField()
     moon_phase = models.CharField()
     uv = models.SmallIntegerField(default = 1)
-<<<<<<< HEAD
-    notes = models.CharField(default="todays mood:")
-=======
     hourlys = models.ManyToManyField(Hourly)
     note = models.CharField(default='')
->>>>>>> main
     
     @property
     def is_today(self):
