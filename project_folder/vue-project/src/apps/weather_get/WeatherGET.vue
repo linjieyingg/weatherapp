@@ -7,14 +7,14 @@
         Min: {{ this.weather.min_f }}<br/>
         Average humidity: {{ this.weather.humidity }}<br/>
     </div>
-    <!-- <div>
-        <span v-for="hourly in this.hourlys">
-            Time: {{ hourly.date }} <br>
+    <div>
+        <span v-for="hourly in this.weather.hourlys">
+            Time: {{ convert_time_to_string(hourly.date)}} <br>
             Temperature: {{ hourly.temp_f }} <br>
             Condition: {{ hourly.condition }} <br>
-            <img src={{ hourly.condition_img }}><br>
+            <!-- <img src={{hourly.condition_img }}><br> -->
             <br/></span>
-    </div>hi -->
+    </div>hi
 </template>
     
 <script>
@@ -23,7 +23,7 @@
         data: function() {
             return {
                 weather_error: [],
-                hourlys: window.ext_hourlys,
+                // hourlys: window.ext_hourlys,
                 weather_id: window.ext_weather_id,
                 weather_detail_js_url: window.ext_weather_detail_js_url,
                 weathert_list_url: window.ext_weather_list_url,
@@ -54,6 +54,12 @@
                 console.log('json', weather_json)
                 this.weather = weather_json['weather']
             },
+            convert_time_to_string(timo){
+                if (timo) {
+                    timo = new Date(timo)
+                    return timo.toString("hh:mm a")
+                }
+            }
         }, 
         beforeMount() {
             this.get_weather_info()
