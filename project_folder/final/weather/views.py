@@ -15,10 +15,12 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from .forms import ObservationForm
 from io import BytesIO
-import base64
+import urllib, base64
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
+import numpy as np
 
 class ObservationListView(ListView):
     model = Observation
@@ -27,6 +29,37 @@ class ObservationListView(ListView):
     
     def get_queryset(self):
         return Observation.objects.order_by('date')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        observations = self.get_queryset()
+        data = pd.DataFrame(list(observations.values()))
+        
+        fig, ax = plt.subplots(figsize=(8, 6))
+        date = data['date']
+        temperature = data['max_f']
+
+        fig, ax = plt.subplots()
+        plt.plot(date, data['max_f'], label='Maximum Temperature (°F)')
+        plt.plot(date, data['min_f'], label='Minimum Temperature (°F)')
+        plt.plot(date, data['precip_in'], label='Precipitation (in)')
+        plt.plot(date, data['humidity'], label='Humidity')
+        plt.plot(date, data['wind_mph'], label='Wind (mph)')
+        ax.set_xticks(date)
+        ax.set_xlabel("Date") 
+        plt.title("Weather Trends in the Next 3 Days")
+        plt.tight_layout()
+        plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+        
+        graphData = BytesIO()
+        plt.savefig(graphData, format='png', bbox_inches='tight')
+        graphData.seek(0)
+        string = base64.b64encode(graphData.read())
+        graph =  urllib.parse.quote(string)
+
+        context['graph'] = graph
+
+        return context
     
 class ObservationDetailView(DetailView):
     model = Observation
@@ -69,24 +102,3 @@ class ObservationUpdatebisView(View):
             return JsonResponse({"success": True})
         else:
             return JsonResponse({"success": False, "errors": form.errors})
-
-def graphic(request):
-    pos = np.arange(10)+ 2 
-    
-    df = pd.DataFrame(list(Observation.objects.all().values('date','min_f','max_f')))
-
-    fig = plt.figure(figsize=(8, 3))
-    ax = fig.add_subplot(111)
-
-    plt.tight_layout()
-
-    buffer = BytesIO()
-    plt.savefig(buffer, format='png')
-    buffer.seek(0)
-    image_png = buffer.getvalue()
-    buffer.close()
-
-    graphic = base64.b64encode(image_png)
-    graphic = graphic.decode('utf-8')
-
-    return render(request, 'graphic.html',{'graphic':graphic})

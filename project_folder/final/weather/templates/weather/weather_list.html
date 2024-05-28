@@ -18,9 +18,11 @@
                 <img style="" src={{ weather.condition_img }} alt="image"/> 
                 {{weather.condition}}
                 <i class="bi bi-droplet"></i>{{weather.precip_in}}
-                <i class="bi bi-wind"></i> {{weather.wind_mph}} MPH
+                <i class="bi bi-wind"></i> {{weather.wind_mph}} MPH<br>
+                {% comment %} <img src={{ graph }} alt="Plot"> {% endcomment %}
             <br/>
             {% endfor %}
+            <img src="data:image/png;base64,{{ graph }}" alt="Plot">
         </div>
        
     </div>
