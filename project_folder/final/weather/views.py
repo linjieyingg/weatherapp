@@ -70,6 +70,38 @@ class ObservationUpdatebisView(View):
         else:
             return JsonResponse({"success": False, "errors": form.errors})
 
+class UpdateView(UpdateView):
+    model = Observation
+    #fields = ['name']
+    form_class = ObservationForm
+    
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.add_message(
+            self.request, 
+            messages.SUCCESS, "updated"
+            )
+            # ,
+            # 'Movie has been updated'.format(
+            #     movie_name=self.object.name
+            # ),
+        
+        return response
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    # comment the following line to show the error about not having an
+    # success_url
+    # def get_success_url(self):
+    #     return reverse_lazy("movies:movie_detail", args=[self.object.id])
+
+    # comment the following line to show the error about not having an
+    # success_url
+    def get_success_url(self):
+        return reverse_lazy("weather:weather_detail", args=[self.object.id])       
+
 def graphic(request):
     pos = np.arange(10)+ 2 
     

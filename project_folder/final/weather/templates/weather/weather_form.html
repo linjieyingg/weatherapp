@@ -19,7 +19,7 @@
         var ext_csrf_token = '{{ csrf_token }}'
         var ext_django_form = `{{ form.as_p | safe }}`
         var ext_weather_dico = {{ weather_dico | safe }} 
-        var ext_update_bis_url = "{% url 'weather:weather_update_bis' weather.id %}"
+        var ext_update_bis_url = "{% url 'weather:weather_update' weather.id %}"
     </script>
     {% vite_hmr_client %}
     {% vite_asset 'src/apps/weather_edit/weather_edit.js' %} 
