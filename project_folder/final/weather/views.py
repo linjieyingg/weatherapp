@@ -72,28 +72,6 @@ class ObservationUpdatebisView(View):
         else:
             return JsonResponse({"success": False, "errors": form.errors})
 
-class ObservationUpdateView(UpdateView):
-    model = Observation
-    form_class = ObservationForm
-    
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        messages.add_message(
-            self.request, messages.SUCCESS,
-            'Course "{observation_date}" has been updated'.format(
-                observation_date=self.object.date))
-        return response
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        observations = model_to_dict(self.object)
-        context["weather_dico"] = observations
-        # print("context", context)
-        return context
-
-    def get_success_url(self):
-        return reverse_lazy("weather:weather_detail", args=[self.object.id])
-    
 def graphic(request):
     pos = np.arange(10)+ 2 
     
