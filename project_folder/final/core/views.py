@@ -83,7 +83,7 @@ def update(r):
         for hour in day['hour']:
             date = datetime.strptime(str(hour['time']),'%Y-%m-%d %H:%M').astimezone(est)
             hourly_info = {
-                'date': hour['time'],
+                'date': datetime.strptime(str(hour['time']),'%Y-%m-%d %H:%M').astimezone(est),
                 'location': location,
                 'country': country,
                 'condition': hour['condition']['text'],
@@ -101,10 +101,9 @@ def update(r):
                 hourly, created = Hourly.objects.update_or_create(**hourly_info)
                 print(hourly.date)
                 dato = datetime.strptime((date.astimezone(est)).strftime('%Y-%m-%d'), '%Y-%m-%d')
-                id = Observation.objects.get(date= datetime.strptime(datetime.strptime(hourly.date,'%Y-%m-%d %H:00').strftime('%Y-%m-%d'), '%Y-%m-%d').astimezone(est))
+                id = Observation.objects.get(date= datetime.strptime(hourly.date.strftime('%Y-%m-%d'), '%Y-%m-%d').astimezone(est))
                 # hourly = Hourly.objects.get(date=datetime.strptime(hour['time'],'%Y-%m-%d %H:00'))
                 # hourly.date = datetime.strptime(hourly.date.strftime('%Y-%m-%d %H:00'), '%Y-%m-%d %H:00').astimezone(est)
                 id.hourlys.add(hourly)
-                print('dato',datetime.strptime(datetime.strptime(hourly.date,'%Y-%m-%d %H:00').astimezone(est).strftime('%Y-%m-%d'), '%Y-%m-%d'))
                 id.save()
     return redirect('hourly/')
