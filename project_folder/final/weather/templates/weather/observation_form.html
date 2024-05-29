@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% load django_vite %}
+{% block head %}
+    <script type="text/javascript">
+        var ext_csrf_token = '{{ csrf_token }}'
+        var ext_django_form = `{{ form.as_p | safe }}`
+        var ext_weather_dico = {{ weather_dico | safe }} 
+    </script>
+{% endblock head%}
+{% block content %}
+
+{% comment %} <a href="{% url 'weather:weather_list' %}">Observations</a>
+<form method="post">{%csrf_token%}
+    {{form.as_p}}
+    <input type="submit" value="save">
+</form> {% endcomment %}
+
+<br />
+<div id="app">
+    <app></app>
+</div>
+
+{% endblock content %}
+
+{% block js %}
+    {{ block.super }} 
+    <script>
+        var ext_csrf_token = '{{ csrf_token }}'
+        var ext_django_form = `{{ form.as_p | safe }}`
+        var ext_weather_dict = {{ weather_dict | safe }} 
+        {% comment %} var ext_update_bis_url = "{% url 'weather:observation_update_bis' weather.id %}" {% endcomment %}
+    </script>
+    {% vite_hmr_client %}
+    {% vite_asset 'src/apps/weather_edit/weather_edit.js' %} 
+{% endblock js %}
