@@ -46,3 +46,7 @@ HuiWenW - 2024-05-28 12:22
 
 HuiWenW - 2024-05-28 14:50
   - Compeleted the pandas/matplotlib graph for the hourly weather app
+
+JieyingL - 2024-05-28 21:18
+  - Noticed problem with instances of hourly getting added to observation --> timezone problem so times sometimes don't match up --> tried to fix but to no avail
+
