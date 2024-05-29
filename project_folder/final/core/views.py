@@ -11,9 +11,9 @@ from django.contrib import messages
 from django.db.models import Q
 from django.shortcuts import redirect
 import requests
-from datetime import datetime
+from datetime import datetime, date
 from .form import SearchForm
-
+import pytz
 class HomePageView(TemplateView):
     template_name = "core/home.html"
     def get_context_data(self, **kwargs):
@@ -51,9 +51,11 @@ def update(r):
     today = datetime.now().strftime("%Y-%m-%d %H:00")
     location = r['location']['name']
     country = r['location']['country']
+    est = pytz.timezone('US/Eastern')
     
     for day in r['forecast']['forecastday']:
         moonrise = day['astro']['moonrise']
+        print('obs',day['date'])
         if(moonrise == 'No moonrise'):
             moonrise= datetime.min
         else: 
@@ -79,7 +81,7 @@ def update(r):
         Observation.objects.update_or_create(**observation_info)
         
         for hour in day['hour']:
-            date = datetime.strptime(str(hour['time']),'%Y-%m-%d %H:%M').date()
+            date = datetime.strptime(str(hour['time']),'%Y-%m-%d %H:%M').astimezone(est)
             hourly_info = {
                 'date': hour['time'],
                 'location': location,
@@ -95,10 +97,14 @@ def update(r):
                 'pressure_in' : hour['pressure_in'],
                 'precip_in': hour['precip_in'],
             }
-            
-            Hourly.objects.update_or_create(**hourly_info)
-            id = Observation.objects.get(date=date)
-            hourly = Hourly.objects.get(date=datetime.strptime(str(hour['time']),'%Y-%m-%d %H:00'))
-            id.hourlys.add(hourly)
-            id.save()
+            if (hour['time'] > today or hour['time'] == today):
+                hourly, created = Hourly.objects.update_or_create(**hourly_info)
+                print(hourly.date)
+                dato = datetime.strptime((date.astimezone(est)).strftime('%Y-%m-%d'), '%Y-%m-%d')
+                id = Observation.objects.get(date= datetime.strptime(datetime.strptime(hourly.date,'%Y-%m-%d %H:00').strftime('%Y-%m-%d'), '%Y-%m-%d').astimezone(est))
+                # hourly = Hourly.objects.get(date=datetime.strptime(hour['time'],'%Y-%m-%d %H:00'))
+                # hourly.date = datetime.strptime(hourly.date.strftime('%Y-%m-%d %H:00'), '%Y-%m-%d %H:00').astimezone(est)
+                id.hourlys.add(hourly)
+                print('dato',datetime.strptime(datetime.strptime(hourly.date,'%Y-%m-%d %H:00').astimezone(est).strftime('%Y-%m-%d'), '%Y-%m-%d'))
+                id.save()
     return redirect('hourly/')

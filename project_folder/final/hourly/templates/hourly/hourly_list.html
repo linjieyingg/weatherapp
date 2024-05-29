@@ -20,6 +20,7 @@
                 Wind: <i class="bi bi-wind"></i>{{hourly.wind_dir}} {{hourly.wind_mph}} mph<br><br>
             </div>
             {% endfor %}
+            <img src="data:image/png;base64,{{ graph }}" alt="Plot">
         </div>
     </div>
 

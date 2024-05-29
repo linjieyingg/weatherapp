@@ -1,9 +1,11 @@
 from django.db import models
 from datetime import datetime
+from django.utils import timezone
+
 # Create your models here.
 
 class Hourly(models.Model):
-    date = models.DateTimeField(default=datetime.now().strftime(("%d.%m.%Y %H:00")))
+    date = models.DateTimeField(default=timezone.now)
     location = models.CharField()
     country = models.CharField()
     condition = models.CharField() ##cloud,rainy,sunny,etc

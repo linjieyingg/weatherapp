@@ -3,3 +3,4 @@ env_node_20.11.1
 project_folder/final/final/secrets.json
 pyenv
 __pycache__/
+'pycache/*'

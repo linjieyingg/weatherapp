@@ -15,10 +15,14 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from .forms import ObservationForm
 from io import BytesIO
-import base64
+import urllib, base64
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
+import numpy as np
+from datetime import datetime
+import pytz
 
 class ObservationListView(ListView):
     model = Observation
@@ -27,6 +31,36 @@ class ObservationListView(ListView):
     
     def get_queryset(self):
         return Observation.objects.order_by('date')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        observations = self.get_queryset()
+        data = pd.DataFrame(list(observations.values()))
+        
+        fig, ax = plt.subplots(figsize=(8, 6))
+        date = data['date']
+
+        fig, ax = plt.subplots()
+        plt.plot(date, data['max_f'], label='Maximum Temperature (°F)')
+        plt.plot(date, data['min_f'], label='Minimum Temperature (°F)')
+        plt.plot(date, data['precip_in'], label='Precipitation (in)')
+        plt.plot(date, data['humidity'], label='Humidity')
+        plt.plot(date, data['wind_mph'], label='Wind (mph)')
+        ax.set_xticks(date)
+        ax.set_xlabel("Date") 
+        plt.title("Weather Trends in the Next 3 Days")
+        plt.tight_layout()
+        plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+        
+        graphData = BytesIO()
+        plt.savefig(graphData, format='png', bbox_inches='tight')
+        graphData.seek(0)
+        string = base64.b64encode(graphData.read())
+        graph =  urllib.parse.quote(string)
+
+        context['graph'] = graph
+
+        return context
     
 class ObservationDetailView(DetailView):
     model = Observation
@@ -54,8 +88,12 @@ class ObservationDetailJsView(View):
     def get(self, request, *args, **kwargs):
         weather = get_object_or_404(Observation, pk=self.kwargs["pk"])
         weather_js = model_to_dict(weather)
+        print(weather_js)
         weather_js["hourlys"] = []
+        est = pytz.timezone('US/Eastern')
         for hourly in weather.hourlys.values():
+            # print('ghi',datetime.strptime(str(hourly['date'].strftime("%Y-%m-%d")), "%Y-%m-%d").date())
+            # if(datetime.strptime(str(hourly['date'].strftime("%Y-%m-%d")), "%Y-%m-%d").date() == weather_js['date']):
             weather_js["hourlys"].append(hourly)
         return JsonResponse({"weather": weather_js})
 

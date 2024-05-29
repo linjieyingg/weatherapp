@@ -40,3 +40,13 @@ HuiWenW - 2024-05-27 14:53
 JieyingL - 2024-05-27 20:38
   - Changed hourly-observation to manytomany relationship
   - Vue detail app 
+
+HuiWenW - 2024-05-28 12:22
+  - Completed the pandas/matplotlib graph for weather/observation app
+
+HuiWenW - 2024-05-28 14:50
+  - Compeleted the pandas/matplotlib graph for the hourly weather app
+
+JieyingL - 2024-05-28 21:23
+  - Noticed problem with instances of hourly getting added to observation --> timezone problem so times sometimes don't match up --> fixed it
+
