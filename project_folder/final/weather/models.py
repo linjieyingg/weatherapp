@@ -22,7 +22,7 @@ class Observation(models.Model):
     moon_phase = models.CharField()
     uv = models.SmallIntegerField(default = 1)
     hourlys = models.ManyToManyField(Hourly)
-    note = models.CharField(default='')
+    note = models.CharField(default='todays notes...')
     
     @property
     def is_today(self):

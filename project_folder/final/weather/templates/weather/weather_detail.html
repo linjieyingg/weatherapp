@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-{% load django_vite %}
+{% comment %} {% load django_vite %} {% endcomment %}
 {% block content %}
 
 <a href="{% url 'weather:weather_list' %}">Daily Weather</a>
-{% comment %} <a href="{% url 'weather:weather_update' object.id %}">Update Observation</a><br /> {% endcomment %}
+<a href="{% url 'weather:weather_update' object.id %}">Update Observation</a><br />
 
     <div id="app">
         <app></app>
@@ -11,7 +11,8 @@
     <h1>{{ object.date }}</h1>
     Max: {{object.max_f}}<br />
     Min: {{object.min_f}}<br />
-    UV Index: {{object.uv}} out of 11<br /><br>
+    UV Index: {{object.uv}} out of 11<br />
+    Notes for today: {{object.note}}
 
     {% for hourly in hourlys %}
         Time: {{ hourly.date }} <br>

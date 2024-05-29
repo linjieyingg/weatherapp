@@ -107,3 +107,57 @@ class ObservationUpdatebisView(View):
             return JsonResponse({"success": True})
         else:
             return JsonResponse({"success": False, "errors": form.errors})
+        
+class WeatherUpdateView(UpdateView):
+    model = Observation
+    #fields = ['name']
+    form_class = ObservationForm
+    
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.add_message(
+            self.request, 
+            messages.SUCCESS, "updated"
+            )
+        return response
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        weather_dico = model_to_dict(self.object)
+        context["weather_dict"] = weather_dico #works if replace {"key":test}
+        print("context", weather_dico)
+        return context
+
+    # comment the following line to show the error about not having an
+    # success_url
+    def get_success_url(self):
+        return reverse_lazy("weather:weather_detail", args=[self.object.id])       
+
+def graphic(request):
+    pos = np.arange(10)+ 2 
+    
+    df = pd.DataFrame(list(Observation.objects.all().values('date','min_f','max_f')))
+
+    fig = plt.figure(figsize=(8, 3))
+    ax = fig.add_subplot(111)
+
+    plt.tight_layout()
+
+    buffer = BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    image_png = buffer.getvalue()
+    buffer.close()
+
+    graphic = base64.b64encode(image_png)
+    graphic = graphic.decode('utf-8')
+
+    return render(request, 'graphic.html',{'graphic':graphic})
+
+# def MyView(request, id): 
+#     instance = get_object_or_404(Observation, id=id)
+#     form = ObservationForm(request.POST or None, instance=instance)
+#     if form.is_valid():
+#         form.save()
+#         return redirect('')
+#     return render(request, 'weather_update_bis.html', {'form': form}) 
