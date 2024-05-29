@@ -99,10 +99,10 @@ def update(r):
             if (hour['time'] > today or hour['time'] == today):
                 Hourly.objects.update_or_create(**hourly_info)
                 print(date)
-                print('hi',datetime.strptime((datetime.strptime(hour['time'],'%Y-%m-%d %H:00').astimezone(est)).strftime('%Y-%m-%d %H:00'),'%Y-%m-%d %H:00'))
                 dato = datetime.strptime((date.astimezone(est)).strftime('%Y-%m-%d'), '%Y-%m-%d')
                 id = Observation.objects.get(date=dato)
                 hourly = Hourly.objects.get(date=datetime.strptime(hour['time'],'%Y-%m-%d %H:00'))
+                hourly.date = datetime.strptime(hourly.date.strftime('%Y-%m-%d %H:00'), '%Y-%m-%d %H:00').astimezone(est)
                 id.hourlys.add(hourly)
                 print(hourly.date)
                 id.save()
