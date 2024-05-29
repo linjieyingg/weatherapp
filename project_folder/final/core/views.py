@@ -11,7 +11,7 @@ from django.contrib import messages
 from django.db.models import Q
 from django.shortcuts import redirect
 import requests
-from datetime import datetime
+from datetime import datetime, date
 from .form import SearchForm
 import pytz
 class HomePageView(TemplateView):
@@ -55,6 +55,7 @@ def update(r):
     
     for day in r['forecast']['forecastday']:
         moonrise = day['astro']['moonrise']
+        print('obs',day['date'])
         if(moonrise == 'No moonrise'):
             moonrise= datetime.min
         else: 
@@ -97,13 +98,13 @@ def update(r):
                 'precip_in': hour['precip_in'],
             }
             if (hour['time'] > today or hour['time'] == today):
-                Hourly.objects.update_or_create(**hourly_info)
-                print(date)
-                dato = datetime.strptime((date.astimezone(est)).strftime('%Y-%m-%d'), '%Y-%m-%d')
-                id = Observation.objects.get(date=dato)
-                hourly = Hourly.objects.get(date=datetime.strptime(hour['time'],'%Y-%m-%d %H:00'))
-                hourly.date = datetime.strptime(hourly.date.strftime('%Y-%m-%d %H:00'), '%Y-%m-%d %H:00').astimezone(est)
-                id.hourlys.add(hourly)
+                hourly, created = Hourly.objects.update_or_create(**hourly_info)
                 print(hourly.date)
+                dato = datetime.strptime((date.astimezone(est)).strftime('%Y-%m-%d'), '%Y-%m-%d')
+                id = Observation.objects.get(date= datetime.strptime(datetime.strptime(hourly.date,'%Y-%m-%d %H:00').strftime('%Y-%m-%d'), '%Y-%m-%d').astimezone(est))
+                # hourly = Hourly.objects.get(date=datetime.strptime(hour['time'],'%Y-%m-%d %H:00'))
+                # hourly.date = datetime.strptime(hourly.date.strftime('%Y-%m-%d %H:00'), '%Y-%m-%d %H:00').astimezone(est)
+                id.hourlys.add(hourly)
+                print('dato',datetime.strptime(datetime.strptime(hourly.date,'%Y-%m-%d %H:00').astimezone(est).strftime('%Y-%m-%d'), '%Y-%m-%d'))
                 id.save()
     return redirect('hourly/')
