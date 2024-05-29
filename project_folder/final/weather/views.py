@@ -21,6 +21,8 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+from datetime import datetime
+import pytz
 
 class ObservationListView(ListView):
     model = Observation
@@ -86,10 +88,13 @@ class ObservationDetailJsView(View):
     def get(self, request, *args, **kwargs):
         weather = get_object_or_404(Observation, pk=self.kwargs["pk"])
         weather_js = model_to_dict(weather)
+        print(weather_js)
         weather_js["hourlys"] = []
+        est = pytz.timezone('US/Eastern')
         for hourly in weather.hourlys.values():
+            # print('ghi',datetime.strptime(str(hourly['date'].strftime("%Y-%m-%d")), "%Y-%m-%d").date())
+            # if(datetime.strptime(str(hourly['date'].strftime("%Y-%m-%d")), "%Y-%m-%d").date() == weather_js['date']):
             weather_js["hourlys"].append(hourly)
-            print(hourly)
         return JsonResponse({"weather": weather_js})
 
 class ObservationUpdatebisView(View):

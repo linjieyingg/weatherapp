@@ -6,10 +6,10 @@
         Max: {{ this.weather.max_f }}<br/>
         Min: {{ this.weather.min_f }}<br/>
         Average humidity: {{ this.weather.humidity }}<br/>
-    </div>
+    </div><br/>
     <div>
         <span v-for="hourly in this.weather.hourlys">
-            Time: {{ convert_time_to_string(hourly.date)}} <br>
+            {{ convert_time_to_string(hourly.date)}} <br>
             Temperature: {{ hourly.temp_f }} <br>
             Condition: {{ hourly.condition }} <br>
             <!-- <img src={{hourly.condition_img }}><br> -->
@@ -57,7 +57,8 @@
             convert_time_to_string(timo){
                 if (timo) {
                     timo = new Date(timo)
-                    return timo.toString("hh:mm a")
+                    // return `${timo.getHours()}:00`
+                    return `${timo}`
                 }
             }
         }, 

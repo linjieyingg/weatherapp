@@ -13,7 +13,7 @@ from django.shortcuts import redirect
 import requests
 from datetime import datetime
 from .form import SearchForm
-
+import pytz
 class HomePageView(TemplateView):
     template_name = "core/home.html"
     def get_context_data(self, **kwargs):
@@ -51,6 +51,7 @@ def update(r):
     today = datetime.now().strftime("%Y-%m-%d %H:00")
     location = r['location']['name']
     country = r['location']['country']
+    est = pytz.timezone('US/Eastern')
     
     for day in r['forecast']['forecastday']:
         moonrise = day['astro']['moonrise']
@@ -79,7 +80,7 @@ def update(r):
         Observation.objects.update_or_create(**observation_info)
         
         for hour in day['hour']:
-            date = datetime.strptime(str(hour['time']),'%Y-%m-%d %H:%M').date()
+            date = datetime.strptime(str(hour['time']),'%Y-%m-%d %H:%M').astimezone(est)
             hourly_info = {
                 'date': hour['time'],
                 'location': location,
@@ -95,10 +96,14 @@ def update(r):
                 'pressure_in' : hour['pressure_in'],
                 'precip_in': hour['precip_in'],
             }
-            
-            Hourly.objects.update_or_create(**hourly_info)
-            id = Observation.objects.get(date=date)
-            hourly = Hourly.objects.get(date=datetime.strptime(str(hour['time']),'%Y-%m-%d %H:00'))
-            id.hourlys.add(hourly)
-            id.save()
+            if (hour['time'] > today or hour['time'] == today):
+                Hourly.objects.update_or_create(**hourly_info)
+                print(date)
+                print('hi',datetime.strptime((datetime.strptime(hour['time'],'%Y-%m-%d %H:00').astimezone(est)).strftime('%Y-%m-%d %H:00'),'%Y-%m-%d %H:00'))
+                dato = datetime.strptime((date.astimezone(est)).strftime('%Y-%m-%d'), '%Y-%m-%d')
+                id = Observation.objects.get(date=dato)
+                hourly = Hourly.objects.get(date=datetime.strptime(hour['time'],'%Y-%m-%d %H:00'))
+                id.hourlys.add(hourly)
+                print(hourly.date)
+                id.save()
     return redirect('hourly/')
