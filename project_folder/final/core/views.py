@@ -14,6 +14,9 @@ import requests
 from datetime import datetime, date
 from .form import SearchForm
 import pytz
+import pandas as pd
+import numpy as np
+
 class HomePageView(TemplateView):
     template_name = "core/home.html"
     def get_context_data(self, **kwargs):
@@ -52,6 +55,16 @@ def update(r):
     location = r['location']['name']
     country = r['location']['country']
     est = pytz.timezone('US/Eastern')
+    filter_list = Q()
+    for index, row in split[0].iterrows():
+        filter_list.add(
+            Q(date=row.date),
+            Q.OR
+         )
+    obs_df = pd.DataFrame.from_records(Observation.objects.filter(filter_list).values())
+    hrs_df = pd.DataFrame.from_records(Hourly.objects.filter(filter_list).values())
+    
+    hrs_dict,obs_dict = {}
     
     for day in r['forecast']['forecastday']:
         moonrise = day['astro']['moonrise']
@@ -61,49 +74,37 @@ def update(r):
         else: 
             moonrise = datetime.strptime(day['astro']['moonrise'],"%I:%M %p")
         observation_info = {
-            'date' : day['date'],
-            'location': location,
-            'country' : country,
+            'date' : day['date'],'location': location,'country' : country,
             'condition' : day['day']['condition']['text'],
             'condition_img' : day['day']['condition']['icon'],
             'humidity': day['day']['avghumidity'],
-            'max_f': day['day']['maxtemp_f'],
-            'min_f': day['day']['mintemp_f'],
+            'max_f': day['day']['maxtemp_f'],'min_f': day['day']['mintemp_f'],
             'wind_mph': day['day']['maxwind_mph'],
-            'precip_in': day['day']['totalprecip_in'],
-            'uv': day['day']['uv'],
+            'precip_in': day['day']['totalprecip_in'],'uv': day['day']['uv'],
             'sunrise': datetime.strptime(day['astro']['sunrise'],"%I:%M %p"),
             'sunset': datetime.strptime(day['astro']['sunset'],"%I:%M %p"),
-            'moonrise': moonrise,
-            'moonset': datetime.strptime(day['astro']['moonset'],"%I:%M %p"),
+            'moonrise': moonrise,'moonset': datetime.strptime(day['astro']['moonset'],"%I:%M %p"),
             'moon_phase': day['astro']['moon_phase'] 
         }
         Observation.objects.update_or_create(**observation_info)
+        
         
         for hour in day['hour']:
             date = datetime.strptime(str(hour['time']),'%Y-%m-%d %H:%M').astimezone(est)
             hourly_info = {
                 'date': datetime.strptime(str(hour['time']),'%Y-%m-%d %H:%M').astimezone(est),
-                'location': location,
-                'country': country,
-                'condition': hour['condition']['text'],
-                'condition_img':hour['condition']['icon'],
-                'temp_f': hour['temp_f'],
-                'feels_like': hour['feelslike_f'],
-                'humidity': hour['humidity'],
-                'uv': hour['uv'],
-                'wind_mph': hour['wind_mph'],
-                'wind_dir': hour['wind_dir'],
-                'pressure_in' : hour['pressure_in'],
-                'precip_in': hour['precip_in'],
+                'location': location,'country': country,
+                'condition': hour['condition']['text'],'condition_img':hour['condition']['icon'],
+                'temp_f': hour['temp_f'],'feels_like': hour['feelslike_f'],
+                'humidity': hour['humidity'],'uv': hour['uv'],
+                'wind_mph': hour['wind_mph'],'wind_dir': hour['wind_dir'],
+                'pressure_in' : hour['pressure_in'],'precip_in': hour['precip_in'],
             }
             if (hour['time'] > today or hour['time'] == today):
                 hourly, created = Hourly.objects.update_or_create(**hourly_info)
                 print(hourly.date)
                 dato = datetime.strptime((date.astimezone(est)).strftime('%Y-%m-%d'), '%Y-%m-%d')
                 id = Observation.objects.get(date= datetime.strptime(hourly.date.strftime('%Y-%m-%d'), '%Y-%m-%d').astimezone(est))
-                # hourly = Hourly.objects.get(date=datetime.strptime(hour['time'],'%Y-%m-%d %H:00'))
-                # hourly.date = datetime.strptime(hourly.date.strftime('%Y-%m-%d %H:00'), '%Y-%m-%d %H:00').astimezone(est)
                 id.hourlys.add(hourly)
                 id.save()
     return redirect('hourly/')
