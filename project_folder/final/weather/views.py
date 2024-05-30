@@ -21,7 +21,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
-from datetime import datetime
+from datetime import datetime, date
 import pytz
 import json
 import ast
@@ -32,7 +32,9 @@ class ObservationListView(ListView):
     template_name = 'weather/weather_list.html'
     
     def get_queryset(self):
-        return Observation.objects.order_by('date')
+        now = datetime.now().strftime("%Y-%m-%d")
+        obs = Observation.objects.filter(date__gte =now)
+        return obs.order_by('date')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

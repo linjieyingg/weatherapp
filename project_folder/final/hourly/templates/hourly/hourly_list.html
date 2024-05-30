@@ -4,7 +4,7 @@
 {% block content %}
 <a href="{% url 'weather:weather_list' %}">Daily Weather</a>
 
-<h1  class="pt-3">Hourly in {{ hourlys.0.location }} </h1>
+<h1  class="pt-3">Hourly in {{ hourlys.last.location }} </h1>
 
 <div class="hourly-list">
 
