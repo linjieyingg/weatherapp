@@ -88,12 +88,8 @@ class ObservationDetailJsView(View):
     def get(self, request, *args, **kwargs):
         weather = get_object_or_404(Observation, pk=self.kwargs["pk"])
         weather_js = model_to_dict(weather)
-        print(weather_js)
         weather_js["hourlys"] = []
-        est = pytz.timezone('US/Eastern')
         for hourly in weather.hourlys.values():
-            # print('ghi',datetime.strptime(str(hourly['date'].strftime("%Y-%m-%d")), "%Y-%m-%d").date())
-            # if(datetime.strptime(str(hourly['date'].strftime("%Y-%m-%d")), "%Y-%m-%d").date() == weather_js['date']):
             weather_js["hourlys"].append(hourly)
         return JsonResponse({"weather": weather_js})
 
@@ -125,7 +121,6 @@ class WeatherUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         weather_dico = model_to_dict(self.object)
         context["weather_dict"] = weather_dico #works if replace {"key":test}
-        print("context", weather_dico)
         return context
 
     # comment the following line to show the error about not having an

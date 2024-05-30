@@ -26,10 +26,15 @@ class HourlyListView(ListView):
     model = Hourly
     context_object_name = 'hourlys'
 
+    def get_queryset(self):
+        hourly = Hourly.objects.all()
+        print(hourly)
+        return Hourly.objects.order_by('date')
+    
     def get_context_data(self, **kwargs):
-        context = super(HourlyListView, self).get_context_data(**kwargs)
-        context['hourly_search_form'] = HourlySearchForm()
-        
+        # context = super(HourlyListView, self).get_context_data(**kwargs)
+        # context['hourly_search_form'] = HourlySearchForm()
+        context = super().get_context_data(**kwargs)
         hourlys = self.get_queryset()
         data = pd.DataFrame(list(hourlys.values()))
         

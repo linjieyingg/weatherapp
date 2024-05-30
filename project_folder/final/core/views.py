@@ -2,8 +2,9 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
+from django.contrib.auth.views import LoginView
+from django.contrib.auth import login as auth_login
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView, ModelFormMixin
 from django.urls import reverse_lazy
 from hourly.models import Hourly
 from weather.models import Observation
@@ -24,18 +25,30 @@ class HomePageView(TemplateView):
         context['search_form'] = SearchForm
         return context
     
-@login_required
-def test_view(request):
-    return render(request, "core/test.html")
+class CoreLoginView(LoginView):
+    template_name = "core/login.html"
+    def form_valid(self, form):
+        """Security check complete. Log the user in."""
+        user = form.get_user()
+        auth_login(self.request, user)
+        return redirect('')
+        # if user_need_to_go_to_otp:
+        #     return redirect('otp_url')
+        # else:
+        #     return else_where
 
 def search_view(request):
     
     if request.method == "GET":
         form = SearchForm(request.GET)
         if form.is_valid():
-            search_input = form.cleaned_data["Search"]
-            search_result = searchAPI(search_input)
-            return update(search_result)
+            # try:
+                search_input = form.cleaned_data["Search"]
+                search_result = searchAPI(search_input)
+                return update(search_result)
+            # except:
+            #     messages.error(request,'Location does not exist')
+            #     return redirect('/')
 
 def searchAPI(search_input):
     # url = "https://weatherapi-com.p.rapidapi.com/current.json"
@@ -55,16 +68,12 @@ def update(r):
     location = r['location']['name']
     country = r['location']['country']
     est = pytz.timezone('US/Eastern')
-    filter_list = Q()
-    for index, row in split[0].iterrows():
-        filter_list.add(
-            Q(date=row.date),
-            Q.OR
-         )
-    obs_df = pd.DataFrame.from_records(Observation.objects.filter(filter_list).values())
-    hrs_df = pd.DataFrame.from_records(Hourly.objects.filter(filter_list).values())
     
-    hrs_dict,obs_dict = {}
+    obs_df = pd.DataFrame.from_records(Observation.objects.filter().values())
+    hrs_df = pd.DataFrame.from_records(Hourly.objects.filter().values())
+    
+    hrs_dict = {}
+    obs_dict = {}
     
     for day in r['forecast']['forecastday']:
         moonrise = day['astro']['moonrise']
@@ -86,9 +95,8 @@ def update(r):
             'moonrise': moonrise,'moonset': datetime.strptime(day['astro']['moonset'],"%I:%M %p"),
             'moon_phase': day['astro']['moon_phase'] 
         }
-        Observation.objects.update_or_create(**observation_info)
-        
-        
+        obs_dict.update({len(obs_dict): observation_info})
+        Observation.objects.update_or_create(date=observation_info['date'], defaults=observation_info)
         for hour in day['hour']:
             date = datetime.strptime(str(hour['time']),'%Y-%m-%d %H:%M').astimezone(est)
             hourly_info = {
@@ -101,10 +109,12 @@ def update(r):
                 'pressure_in' : hour['pressure_in'],'precip_in': hour['precip_in'],
             }
             if (hour['time'] > today or hour['time'] == today):
-                hourly, created = Hourly.objects.update_or_create(**hourly_info)
+                hourly, created = Hourly.objects.update_or_create(date=hourly_info['date'],defaults=hourly_info)
                 print(hourly.date)
                 dato = datetime.strptime((date.astimezone(est)).strftime('%Y-%m-%d'), '%Y-%m-%d')
                 id = Observation.objects.get(date= datetime.strptime(hourly.date.strftime('%Y-%m-%d'), '%Y-%m-%d').astimezone(est))
                 id.hourlys.add(hourly)
                 id.save()
+   
+    print(today)    
     return redirect('hourly/')
