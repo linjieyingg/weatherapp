@@ -1,21 +1,23 @@
 <template>
-    <div>
-        <a :href="this.weather_list_url">Observation List</a><br/>
-        <a :href="this.weather_update_url">Update Observation</a><br/>
-        <h1>{{ this.weather.date }}</h1>
-        Max: {{ this.weather.max_f }}<br/>
-        Min: {{ this.weather.min_f }}<br/>
-        Average humidity: {{ this.weather.humidity }}<br/>
-        Notes: {{ this.weather.note }}
-    </div><br/>
-    <div>
-        <span v-for="hourly in this.weather.hourlys">
-            {{ convert_time_to_string(hourly.date)}} <br>
-            Temperature: {{ hourly.temp_f }} <br>
-            Condition: {{ hourly.condition }} <br>
-            <!-- <img src={{hourly.condition_img }}><br> -->
-            <br/></span>
-    </div>hi
+        <div>
+            <a :href="this.weather_list_url">Observation List</a><br/>
+            <a :href="this.weather_update_url">Update Observation</a><br/>
+            <h1>{{ this.weather.date }}</h1>
+            Max: {{ this.weather.max_f }}<br/>
+            Min: {{ this.weather.min_f }}<br/>
+            Average humidity: {{ this.weather.humidity }}<br/>
+            Notes: {{ this.weather.note }}
+        </div><br/>
+        <div>
+            <span v-for="hourly in this.weather.hourlys">
+                {{ ((hourly.date).toString().split("T"))[1].replace('Z', ' ').split(":")[0] }}
+                <!-- {{ (convert_time_to_string(hourly.date)).replace('GMT-0400 (Eastern Daylight Time)', ' ')}} <br> -->
+                Temperature: {{ hourly.temp_f }} <br>
+                Condition: {{ hourly.condition }} <br>
+                <!-- <img src={{hourly.condition_img }}><br> -->
+                <br/></span>
+        </div>  
+    
 </template>
     
 <script>
@@ -27,7 +29,7 @@
                 // hourlys: window.ext_hourlys,
                 weather_id: window.ext_weather_id,
                 weather_detail_js_url: window.ext_weather_detail_js_url,
-                weathert_list_url: window.ext_weather_list_url,
+                weather_list_url: window.ext_weather_list_url,
                 weather_update_url: window.ext_weather_update_url,
                 weather: {}, 
             }
