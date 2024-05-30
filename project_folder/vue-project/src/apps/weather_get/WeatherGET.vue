@@ -9,13 +9,14 @@
         Notes: {{ this.weather.note }}
     </div><br/>
     <div>
+       {{ this.weather.hourlys }}
         <span v-for="hourly in this.weather.hourlys">
             {{ convert_time_to_string(hourly.date)}} <br>
             Temperature: {{ hourly.temp_f }} <br>
             Condition: {{ hourly.condition }} <br>
             <!-- <img src={{hourly.condition_img }}><br> -->
             <br/></span>
-    </div>hi
+    </div>
 </template>
     
 <script>

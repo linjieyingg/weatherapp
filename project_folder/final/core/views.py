@@ -15,8 +15,11 @@ import requests
 from datetime import datetime, date
 from .form import SearchForm
 import pytz
+<<<<<<< HEAD
 import pandas as pd
 import numpy as np
+=======
+>>>>>>> huiwen_mac
 
 class HomePageView(TemplateView):
     template_name = "core/home.html"
@@ -45,7 +48,6 @@ def search_view(request):
             return update(search_result)
 
 def searchAPI(search_input):
-    # url = "https://weatherapi-com.p.rapidapi.com/current.json"
     url = "https://weatherapi-com.p.rapidapi.com/forecast.json"
     querystring = {"q": search_input, 'days': 3}
     headers = {

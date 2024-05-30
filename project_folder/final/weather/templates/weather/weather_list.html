@@ -2,31 +2,70 @@
 {% load static %}
 
 {% block content %}
+
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+    crossorigin="anonymous"
+/>
+
+
 <a href="{% url 'hourly:hourly_list' %}">Hourly Weather</a>
 
 <h1  class="pt-3">3 Day Weather in {{ observations.0.location }} </h1>
 
 <div class="weather-list">
-    <div >
-        <div>
-            {% for weather in observations %}
-
-                    <a href="{% url 'weather:weather_detail_bis' weather.id %}">
-
-                {{ weather.date|date:"l d" }}</a>
-                {{weather.max_f}}/{{weather.min_f}} 
-                <img style="" src={{ weather.condition_img }} alt="image"/> 
-                {{weather.condition}}
-                <i class="bi bi-droplet"></i>{{weather.precip_in}}
-                <i class="bi bi-wind"></i> {{weather.wind_mph}} MPH<br>
-                {% comment %} <img src={{ graph }} alt="Plot"> {% endcomment %}
-            <br/>
-            {% endfor %}
-            <img src="data:image/png;base64,{{ graph }}" alt="Plot">
-        </div>
-       
+    <div class="row text-center pt-5 pb-3">
+        <div class="col h3">Date</div>
+        <div class="col h3">Temperature</div>
+        <div class="col h3">Condition</div>
+        <div class="col h3">Precipitation</div>
+        <div class="col h3">Wind</div>
     </div>
+
+    {% for weather in observations %}
+    <div class="row text-center align-center">
+        <div class="col h5 align-self-center">
+            <a href="{% url 'weather:weather_detail_bis' weather.id %}">{{ weather.date|date:"l d" }}</a>
+        </div>
+        <div class="col h5 align-self-center">
+            High: {{weather.max_f}}˚F <br/>
+            Low: {{weather.min_f}}˚F
+        </div>
+        <div class="col h5 align-self-center">
+            <img style="" src={{ weather.condition_img }} alt="image"/><br>
+            {{weather.condition}}
+        </div>
+        <div class="col h5 align-self-center">
+            <i class="bi bi-droplet"></i>{{weather.precip_in}} in.
+        </div>
+        <div class="col h5 align-self-center">
+            <i class="bi bi-wind"></i> {{weather.wind_mph}} MPH<br>
+        </div>
+    </div>
+    <br/>
+    {% endfor %}
+
+    <div class="d-flex justify-content-center py-5">
+        <img src="data:image/png;base64,{{ graph }}" alt="Plot">
+    </div>
+
+    <p>
+        <li>CSS and Bootstrap</li>
+        <li>Search debug</li>
+        <li>Updating database based on search</li>
+        <li>Displaying only the current weather/hour</li>
+        <li>Linking table for many to many relationship</li>
+        <li>Debug vue pages</li>
+    </p>
+
 </div>
 
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyNo0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"
+/>
 
 {% endblock content %}
