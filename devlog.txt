@@ -61,3 +61,7 @@ JieyingL - 2024-05-28 21:23
 
 XinyiR - 2024-05-28 23:33
   -fixed vue update form but weather dictionary doesn't show up
+
+JieyingL - 2024-05-29 20:27
+  - Records update if api data changed
+  - Handled error that occurs when searching a location that doesn't exist
