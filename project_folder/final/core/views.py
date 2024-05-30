@@ -45,7 +45,6 @@ def search_view(request):
             return update(search_result)
 
 def searchAPI(search_input):
-    # url = "https://weatherapi-com.p.rapidapi.com/current.json"
     url = "https://weatherapi-com.p.rapidapi.com/forecast.json"
     querystring = {"q": search_input, 'days': 3}
     headers = {
