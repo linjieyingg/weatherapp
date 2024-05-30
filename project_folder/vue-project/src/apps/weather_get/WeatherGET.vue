@@ -6,6 +6,7 @@
         Max: {{ this.weather.max_f }}<br/>
         Min: {{ this.weather.min_f }}<br/>
         Average humidity: {{ this.weather.humidity }}<br/>
+        Notes: {{ this.weather.note }}
     </div><br/>
     <div>
         <span v-for="hourly in this.weather.hourlys">
@@ -28,7 +29,7 @@
                 weather_detail_js_url: window.ext_weather_detail_js_url,
                 weathert_list_url: window.ext_weather_list_url,
                 weather_update_url: window.ext_weather_update_url,
-                weather: {},
+                weather: {}, 
             }
         },
         methods: {
