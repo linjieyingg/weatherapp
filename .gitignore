@@ -1,10 +1,12 @@
 env_3.11.5
 env_node_20.11.1
-project_folder/final/final/secrets.json
 pyenv
 nodeenv
+
+project_folder/final/final/secrets.json
+
+
 __pycache__/
 'pycache/*'
-
 weather/migrations/__pycache__/
 hourly/migrations/__pycache__/
