@@ -50,7 +50,8 @@ class ObservationListView(ListView):
         ax.set_xlabel("Date") 
         plt.title("Weather Trends in the Next 3 Days")
         plt.tight_layout()
-        plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+        ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15),
+          fancybox=True, shadow=True, ncol=5)
         
         graphData = BytesIO()
         plt.savefig(graphData, format='png', bbox_inches='tight')

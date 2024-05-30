@@ -2,5 +2,6 @@ env_3.11.5
 env_node_20.11.1
 project_folder/final/final/secrets.json
 pyenv
+nodeenv
 __pycache__/
 'pycache/*'

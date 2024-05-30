@@ -14,6 +14,7 @@ import requests
 from datetime import datetime, date
 from .form import SearchForm
 import pytz
+
 class HomePageView(TemplateView):
     template_name = "core/home.html"
     def get_context_data(self, **kwargs):
@@ -35,7 +36,6 @@ def search_view(request):
             return update(search_result)
 
 def searchAPI(search_input):
-    # url = "https://weatherapi-com.p.rapidapi.com/current.json"
     url = "https://weatherapi-com.p.rapidapi.com/forecast.json"
     querystring = {"q": search_input, 'days': 3}
     headers = {
