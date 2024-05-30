@@ -23,6 +23,8 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 import pytz
+import json
+import ast
 
 class ObservationListView(ListView):
     model = Observation
@@ -89,12 +91,8 @@ class ObservationDetailJsView(View):
     def get(self, request, *args, **kwargs):
         weather = get_object_or_404(Observation, pk=self.kwargs["pk"])
         weather_js = model_to_dict(weather)
-        print(weather_js)
         weather_js["hourlys"] = []
-        est = pytz.timezone('US/Eastern')
         for hourly in weather.hourlys.values():
-            # print('ghi',datetime.strptime(str(hourly['date'].strftime("%Y-%m-%d")), "%Y-%m-%d").date())
-            # if(datetime.strptime(str(hourly['date'].strftime("%Y-%m-%d")), "%Y-%m-%d").date() == weather_js['date']):
             weather_js["hourlys"].append(hourly)
         return JsonResponse({"weather": weather_js})
 
@@ -124,9 +122,12 @@ class WeatherUpdateView(UpdateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        weather_dico = model_to_dict(self.object)
-        context["weather_dict"] = weather_dico #works if replace {"key":test}
-        print("context", weather_dico)
+        weather_dict = model_to_dict(self.object)
+        note_dict={}
+        strdate = weather_dict.get("date").strftime("%Y-%m-%d")
+        note_dict = {"date": strdate , "note": weather_dict.get("note")}
+        print(note_dict)
+        context["weather_dico"] = note_dict
         return context
 
     # comment the following line to show the error about not having an
@@ -155,10 +156,3 @@ def graphic(request):
 
     return render(request, 'graphic.html',{'graphic':graphic})
 
-# def MyView(request, id): 
-#     instance = get_object_or_404(Observation, id=id)
-#     form = ObservationForm(request.POST or None, instance=instance)
-#     if form.is_valid():
-#         form.save()
-#         return redirect('')
-#     return render(request, 'weather_update_bis.html', {'form': form}) 

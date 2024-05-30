@@ -2,8 +2,9 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
+from django.contrib.auth.views import LoginView
+from django.contrib.auth import login as auth_login
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView, ModelFormMixin
 from django.urls import reverse_lazy
 from hourly.models import Hourly
 from weather.models import Observation
@@ -14,6 +15,8 @@ import requests
 from datetime import datetime, date
 from .form import SearchForm
 import pytz
+import pandas as pd
+import numpy as np
 
 class HomePageView(TemplateView):
     template_name = "core/home.html"
@@ -22,9 +25,12 @@ class HomePageView(TemplateView):
         context['search_form'] = SearchForm
         return context
     
-@login_required
-def test_view(request):
-    return render(request, "core/test.html")
+class CoreLoginView(LoginView):
+    template_name = "core/login.html"
+    def form_valid(self, form):
+        user = form.get_user()
+        auth_login(self.request, user)
+        return redirect('')
 
 def search_view(request):
     
@@ -33,6 +39,9 @@ def search_view(request):
         if form.is_valid():
             search_input = form.cleaned_data["Search"]
             search_result = searchAPI(search_input)
+            if search_result == "No matching location found.":
+                messages.error(request, "No matching location found.")
+                return redirect('/')
             return update(search_result)
 
 def searchAPI(search_input):
@@ -44,7 +53,8 @@ def searchAPI(search_input):
     }
     response = requests.get(url, headers=headers, params=querystring)
     r = requests.get(url, headers=headers, params=querystring).json()
-    # update(r)
+    if 'error' in r:
+        return r['error']['message']
     return response.json()
     
 def update(r):
@@ -61,50 +71,33 @@ def update(r):
         else: 
             moonrise = datetime.strptime(day['astro']['moonrise'],"%I:%M %p")
         observation_info = {
-            'date' : day['date'],
-            'location': location,
-            'country' : country,
+            'date' : day['date'],'location': location,'country' : country,
             'condition' : day['day']['condition']['text'],
             'condition_img' : day['day']['condition']['icon'],
             'humidity': day['day']['avghumidity'],
-            'max_f': day['day']['maxtemp_f'],
-            'min_f': day['day']['mintemp_f'],
+            'max_f': day['day']['maxtemp_f'],'min_f': day['day']['mintemp_f'],
             'wind_mph': day['day']['maxwind_mph'],
-            'precip_in': day['day']['totalprecip_in'],
-            'uv': day['day']['uv'],
+            'precip_in': day['day']['totalprecip_in'],'uv': day['day']['uv'],
             'sunrise': datetime.strptime(day['astro']['sunrise'],"%I:%M %p"),
             'sunset': datetime.strptime(day['astro']['sunset'],"%I:%M %p"),
-            'moonrise': moonrise,
-            'moonset': datetime.strptime(day['astro']['moonset'],"%I:%M %p"),
+            'moonrise': moonrise,'moonset': datetime.strptime(day['astro']['moonset'],"%I:%M %p"),
             'moon_phase': day['astro']['moon_phase'] 
         }
-        Observation.objects.update_or_create(**observation_info)
-        
+        Observation.objects.update_or_create(date=observation_info['date'], defaults=observation_info)
         for hour in day['hour']:
-            date = datetime.strptime(str(hour['time']),'%Y-%m-%d %H:%M').astimezone(est)
             hourly_info = {
-                'date': hour['time'],
-                'location': location,
-                'country': country,
-                'condition': hour['condition']['text'],
-                'condition_img':hour['condition']['icon'],
-                'temp_f': hour['temp_f'],
-                'feels_like': hour['feelslike_f'],
-                'humidity': hour['humidity'],
-                'uv': hour['uv'],
-                'wind_mph': hour['wind_mph'],
-                'wind_dir': hour['wind_dir'],
-                'pressure_in' : hour['pressure_in'],
-                'precip_in': hour['precip_in'],
+                'date': datetime.strptime(str(hour['time']),'%Y-%m-%d %H:%M').astimezone(est),
+                'location': location,'country': country,
+                'condition': hour['condition']['text'],'condition_img':hour['condition']['icon'],
+                'temp_f': hour['temp_f'],'feels_like': hour['feelslike_f'],
+                'humidity': hour['humidity'],'uv': hour['uv'],
+                'wind_mph': hour['wind_mph'],'wind_dir': hour['wind_dir'],
+                'pressure_in' : hour['pressure_in'],'precip_in': hour['precip_in'],
             }
             if (hour['time'] > today or hour['time'] == today):
-                hourly, created = Hourly.objects.update_or_create(**hourly_info)
+                hourly, created = Hourly.objects.update_or_create(date=hourly_info['date'],defaults=hourly_info)
                 print(hourly.date)
-                dato = datetime.strptime((date.astimezone(est)).strftime('%Y-%m-%d'), '%Y-%m-%d')
-                id = Observation.objects.get(date= datetime.strptime(datetime.strptime(hourly.date,'%Y-%m-%d %H:00').strftime('%Y-%m-%d'), '%Y-%m-%d').astimezone(est))
-                # hourly = Hourly.objects.get(date=datetime.strptime(hour['time'],'%Y-%m-%d %H:00'))
-                # hourly.date = datetime.strptime(hourly.date.strftime('%Y-%m-%d %H:00'), '%Y-%m-%d %H:00').astimezone(est)
+                id = Observation.objects.get(date= datetime.strptime(hourly.date.strftime('%Y-%m-%d'), '%Y-%m-%d').astimezone(est))
                 id.hourlys.add(hourly)
-                print('dato',datetime.strptime(datetime.strptime(hourly.date,'%Y-%m-%d %H:00').astimezone(est).strftime('%Y-%m-%d'), '%Y-%m-%d'))
-                id.save()
+                id.save()   
     return redirect('hourly/')
