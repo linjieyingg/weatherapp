@@ -28,27 +28,21 @@ class HomePageView(TemplateView):
 class CoreLoginView(LoginView):
     template_name = "core/login.html"
     def form_valid(self, form):
-        """Security check complete. Log the user in."""
         user = form.get_user()
         auth_login(self.request, user)
         return redirect('')
-        # if user_need_to_go_to_otp:
-        #     return redirect('otp_url')
-        # else:
-        #     return else_where
 
 def search_view(request):
     
     if request.method == "GET":
         form = SearchForm(request.GET)
         if form.is_valid():
-            # try:
-                search_input = form.cleaned_data["Search"]
-                search_result = searchAPI(search_input)
-                return update(search_result)
-            # except:
-            #     messages.error(request,'Location does not exist')
-            #     return redirect('/')
+            search_input = form.cleaned_data["Search"]
+            search_result = searchAPI(search_input)
+            if search_result == "No matching location found.":
+                messages.error(request, "No matching location found.")
+                return redirect('/')
+            return update(search_result)
 
 def searchAPI(search_input):
     # url = "https://weatherapi-com.p.rapidapi.com/current.json"
@@ -60,7 +54,8 @@ def searchAPI(search_input):
     }
     response = requests.get(url, headers=headers, params=querystring)
     r = requests.get(url, headers=headers, params=querystring).json()
-    # update(r)
+    if 'error' in r:
+        return r['error']['message']
     return response.json()
     
 def update(r):
@@ -68,12 +63,6 @@ def update(r):
     location = r['location']['name']
     country = r['location']['country']
     est = pytz.timezone('US/Eastern')
-    
-    obs_df = pd.DataFrame.from_records(Observation.objects.filter().values())
-    hrs_df = pd.DataFrame.from_records(Hourly.objects.filter().values())
-    
-    hrs_dict = {}
-    obs_dict = {}
     
     for day in r['forecast']['forecastday']:
         moonrise = day['astro']['moonrise']
@@ -95,10 +84,8 @@ def update(r):
             'moonrise': moonrise,'moonset': datetime.strptime(day['astro']['moonset'],"%I:%M %p"),
             'moon_phase': day['astro']['moon_phase'] 
         }
-        obs_dict.update({len(obs_dict): observation_info})
         Observation.objects.update_or_create(date=observation_info['date'], defaults=observation_info)
         for hour in day['hour']:
-            date = datetime.strptime(str(hour['time']),'%Y-%m-%d %H:%M').astimezone(est)
             hourly_info = {
                 'date': datetime.strptime(str(hour['time']),'%Y-%m-%d %H:%M').astimezone(est),
                 'location': location,'country': country,
@@ -111,10 +98,7 @@ def update(r):
             if (hour['time'] > today or hour['time'] == today):
                 hourly, created = Hourly.objects.update_or_create(date=hourly_info['date'],defaults=hourly_info)
                 print(hourly.date)
-                dato = datetime.strptime((date.astimezone(est)).strftime('%Y-%m-%d'), '%Y-%m-%d')
                 id = Observation.objects.get(date= datetime.strptime(hourly.date.strftime('%Y-%m-%d'), '%Y-%m-%d').astimezone(est))
                 id.hourlys.add(hourly)
-                id.save()
-   
-    print(today)    
+                id.save()   
     return redirect('hourly/')
