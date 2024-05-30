@@ -5,3 +5,6 @@ pyenv
 nodeenv
 __pycache__/
 'pycache/*'
+
+weather/migrations/__pycache__/
+hourly/migrations/__pycache__/
