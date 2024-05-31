@@ -2,20 +2,43 @@
         <div>
             <a :href="this.weather_list_url">Observation List</a><br/>
             <a :href="this.weather_update_url">Update Observation</a><br/>
-            <h1>{{ this.weather.date }}</h1>
+            <h1>Hourly Weather - {{ this.weather.date }}</h1>
             Max: {{ this.weather.max_f }}<br/>
             Min: {{ this.weather.min_f }}<br/>
             Average humidity: {{ this.weather.humidity }}<br/>
             Notes: {{ this.weather.note }}
         </div><br/>
         <div>
-            <span v-for="hourly in this.weather.hourlys">
-                {{ ((hourly.date).toString().split("T"))[1].replace('Z', ' ').split(":")[0] }}
+            <div class="detail">
+                <h4 class="c">Hour</h4>
+                <h4 class="c">Temperature</h4>
+                <h4 class="c">Condition</h4>
+            </div><br />
+            <div v-for="hourly in this.weather.hourlys" onclick="show">
+                <div class="detail">
+                    <div class="c">{{ ((hourly.date).toString().split("T"))[1].replace('Z', ' ').split(":")[0] }}
+                    </div>
                 <!-- {{ (convert_time_to_string(hourly.date)).replace('GMT-0400 (Eastern Daylight Time)', ' ')}} <br> -->
-                Temperature: {{ hourly.temp_f }} <br>
-                Condition: {{ hourly.condition }} <br>
+                    <div class="c">   
+                        {{ hourly.temp_f }} 
+                    </div>
+                    <div class="c">
+                        {{ hourly.condition }} 
+                    </div>
+                </div>
+                <div class="detail dropdown-content">
+                    <div class="c">feels like {{hourly.feels_like }}</div>
+                    <div class="c">wind {{ hourly.wind_mph }}</div>
+                    <div class="c">humidity {{ hourly.humidity }}</div>
+                    
+                    <div class="c">Precipitation {{ hourly.precip_in }}</div>
+                    <div class="c">UV index {{ hourly.uv }}</div>
+                    <div class="c">Pressure {{ hourly.pressure_in }}</div>
+                    
+                </div>
+
                 <!-- <img src={{hourly.condition_img }}><br> -->
-                <br/></span>
+            </div>
         </div>  
     
 </template>
@@ -63,6 +86,9 @@
                     // return `${timo.getHours()}:00`
                     return `${timo}`
                 }
+            },
+            show(){
+                document.getElementById("myDropdown").classList.toggle("show");
             }
         }, 
         beforeMount() {
@@ -77,3 +103,33 @@
         // },
     }
 </script>
+<style>
+.detail{
+    background-color: aliceblue;
+    display: flex;
+    justify-content: space-around;
+    margin: auto;
+}
+.c{
+    flex:1 1 30%;
+    border:solid red 1px;
+    text-align: center;
+}
+.c:hover{
+    background-color: #b2c9f4;
+}
+.dropdown-content{
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+.dropcheck:checked ~ .dropdown-content {
+  display: block;
+}
+.show{
+    display: block;
+}
+</style>
