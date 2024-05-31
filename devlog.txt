@@ -83,3 +83,6 @@ HuiWenW - 2024-05-31 11:01
 HuiWenW - 2024-05-31 14:50
   - Added colors in CSS
   - Checking/working on responsiveness
+
+HuiWenW- 2024-05-31 16:31
+  - Updated/Finished readme.md
