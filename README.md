@@ -47,13 +47,10 @@ The modules you need are nodeenv, django, django-extensions, django_vite, pgadmi
    ```
 
 #### Set Up Node Environment
-1. You should have nodeenv already installed if you followed the launch code in order
+1. Navigate to the same level as your python environment (you should have nodeenv already installed)
 2. Install node.js version 20.11.1: `nodeenv --node=20.11.1 --prebuilt env_node_20.11.1`
 3. Deactivate your python environment: `deactivate`
 4. Activate your node environment: `source env_node_20.11.1/bin/activate`
-
-#### Set Up Node Environment
-1. On the same level as your python environment
 
 #### Connecting to Local Database
 1. Locate the file called `secrets_template.json` in the `project_folder/final/` directory
