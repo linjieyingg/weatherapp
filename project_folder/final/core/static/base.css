@@ -1,0 +1,21 @@
+nav {
+    background-color: #1ea896;
+    color: white; 
+    border-radius: 8px;
+    a {
+        color: white;
+    }
+}
+
+.btn-styles {
+    background-color: #1ea896;
+    padding: 10px;
+    border-radius: 8px;
+    color: white;
+    border: none;
+}
+
+/* html body {
+    background-color:lightsalmon;
+} */
+
