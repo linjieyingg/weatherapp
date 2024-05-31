@@ -9,22 +9,6 @@
     crossorigin="anonymous"
 />
 
-<div class="row text-center">
-    <h1 class="">Rain Rain Go Away</h1>
-    <h5 class="py-3">YOUR PERSONAL WEATHER SEARCH ENGINE.</h5>
-</div>
-
-<nav class="navbar-dark bg-light py-2 align-items-center">
-    <a class="d-inline-flex p-4 text-decoration-none fs-5" href="{% url 'weather:weather_list' %}">Daily Weather</a>
-    <a class="d-inline-flex p-4 text-decoration-none fs-5" href="{% url 'hourly:hourly_list' %}">Hourly Weather</a>
-    <div class="d-inline-flex p-4 float-end">
-        <form action="{% url 'core:search' %}" method="get">
-            {% csrf_token %}
-            {{search_form.as_p}}
-        </form>
-    </div>
-</nav>
-
 <div class="py-2">
     This is a short description on how to use the website
 </div>

@@ -26,6 +26,8 @@ import pytz
 import json
 import ast
 
+from core.form import SearchForm
+
 class ObservationListView(ListView):
     model = Observation
     context_object_name = 'observations'
@@ -64,6 +66,7 @@ class ObservationListView(ListView):
         graph =  urllib.parse.quote(string)
 
         context['graph'] = graph
+        context['search_form'] = SearchForm()
 
         return context
     
@@ -75,6 +78,7 @@ class ObservationDetailView(DetailView):
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
+        context['search_form'] = SearchForm()
         return context
 
 class ObservationDetailbisView(TemplateView):
@@ -87,6 +91,7 @@ class ObservationDetailbisView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['weather_id'] = self.kwargs["pk"]
+        context['search_form'] = SearchForm()
         return context
     
 class ObservationDetailJsView(View):
@@ -130,31 +135,11 @@ class WeatherUpdateView(UpdateView):
         note_dict = {"date": strdate , "note": weather_dict.get("note")}
         print(note_dict)
         context["weather_dico"] = note_dict
+        context['search_form'] = SearchForm()
         return context
 
     # comment the following line to show the error about not having an
     # success_url
     def get_success_url(self):
         return reverse_lazy("weather:weather_detail", args=[self.object.id])       
-
-def graphic(request):
-    pos = np.arange(10)+ 2 
-    
-    df = pd.DataFrame(list(Observation.objects.all().values('date','min_f','max_f')))
-
-    fig = plt.figure(figsize=(8, 3))
-    ax = fig.add_subplot(111)
-
-    plt.tight_layout()
-
-    buffer = BytesIO()
-    plt.savefig(buffer, format='png')
-    buffer.seek(0)
-    image_png = buffer.getvalue()
-    buffer.close()
-
-    graphic = base64.b64encode(image_png)
-    graphic = graphic.decode('utf-8')
-
-    return render(request, 'graphic.html',{'graphic':graphic})
 

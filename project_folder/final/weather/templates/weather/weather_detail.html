@@ -1,8 +1,12 @@
 {% extends "base.html" %}
 {% comment %} {% load django_vite %} {% endcomment %}
+
+{% block form %}
+  {{ block.super }}
+{% endblock %}
+
 {% block content %}
 
-<a href="{% url 'weather:weather_list' %}">Daily Weather</a>
 <a href="{% url 'weather:weather_update' object.id %}">Update Observation</a><br />
 
     <div id="app">

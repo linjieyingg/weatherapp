@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% load django_vite %}
+
+{% block form %}
+  {{ block.super }}
+{% endblock %}
+
 {% block content %}
 
 <a href="{% url 'weather:weather_list' %}">Observations</a>

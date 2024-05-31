@@ -10,22 +10,27 @@
     crossorigin="anonymous"
 />
 
+{% block form %}
+  {{ block.super }}
+{% endblock %}
 
-<a href="{% url 'hourly:hourly_list' %}">Hourly Weather</a>
+<h3 class="pt-4">3 Day Weather in {{ observations.0.location }} </h3>
 
-<h1  class="pt-3">3 Day Weather in {{ observations.last.location }} </h1>
+<div class="d-flex justify-content-center pt-3 pb-5">
+    <img src="data:image/png;base64,{{ graph }}" alt="Plot">
+</div>
 
 <div class="weather-list">
-    <div class="row text-center pt-5 pb-3">
-        <div class="col h3">Date</div>
-        <div class="col h3">Temperature</div>
-        <div class="col h3">Condition</div>
-        <div class="col h3">Precipitation</div>
-        <div class="col h3">Wind</div>
+    <div class="row text-center pt-3 pb-4">
+        <div class="col h4">Date</div>
+        <div class="col h4">Temperature</div>
+        <div class="col h4">Condition</div>
+        <div class="col h4">Precipitation</div>
+        <div class="col h4">Wind</div>
     </div>
 
     {% for weather in observations %}
-    <div class="row text-center align-center">
+    <div class="row text-center align-center py-3">
         <div class="col h5 align-self-center">
             <a href="{% url 'weather:weather_detail_bis' weather.id %}">{{ weather.date|date:"l d" }}</a>
         </div>
@@ -34,7 +39,7 @@
             Low: {{weather.min_f}}˚F
         </div>
         <div class="col h5 align-self-center">
-            <img style="" src={{ weather.condition_img }} alt="image"/><br>
+            <img style="" src={{ weather.condition_img }} alt="image"/>
             {{weather.condition}}
         </div>
         <div class="col h5 align-self-center">
@@ -46,10 +51,6 @@
     </div>
     <br/>
     {% endfor %}
-
-    <div class="d-flex justify-content-center py-5">
-        <img src="data:image/png;base64,{{ graph }}" alt="Plot">
-    </div>
 
     <p>
         <li>CSS and Bootstrap</li>
