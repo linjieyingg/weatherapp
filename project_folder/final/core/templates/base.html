@@ -26,7 +26,7 @@
             <div class="col-12">
                 <div class="row">
                     <div class="col-5 d-flex align-items-center py-4"><br>
-                        <a class="text-decoration-none btn-styles" href="{% url 'core:main' %}">Home: Weather Search</a>
+                        <a class="text-decoration-none btn-styles" href="{% url 'core:main' %}">Home</a>
                     </div>
                     <div class="col-7 d-flex align-items-center">
                         <div class="row" style="width: 110%">
@@ -35,7 +35,7 @@
                                         {% if user.is_authenticated %}
                                             <div class="row">
                                                 <div class="col-auto d-flex align-items-center">
-                                                    Login: {{user.username}}
+                                                    User: {{user.username}}
                                                 </div>
                                                 <div class="col-auto">
                                                     <form action="{{url_logout}}" method="post">
@@ -67,7 +67,7 @@
             <a class="d-inline-flex p-4 text-decoration-none fs-5" href="{% url 'hourly:hourly_list' %}">Hourly Weather</a>
             <div class="d-inline-flex p-4 float-end">
                 {% block search %}
-                <form action="{% url 'core:search' %}" method="get">
+                <form class="col" action="{% url 'core:search' %}" method="get">
                     {% csrf_token %}
                     {{search_form.as_p}}
                 </form>
