@@ -68,11 +68,12 @@
         }).then(function(response) {
           console.log('response', response)
           return response.json()}).then(
-              this.handleResponse).catch(
-                  (error) => {
-                  console.log('error', String(error))
-                  this.form_error=["error"]
-          })
+            ).then(
+                this.handleResponse).catch(
+                    (error) => {
+                    console.log('error', String(error))
+                    this.form_error=["error"]
+            })
       },
       handleResponse(response) {
         console.log('json response', response)

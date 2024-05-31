@@ -17,7 +17,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
-
+from datetime import datetime
 from .hourly_search_form import HourlySearchForm
 from core.form import SearchForm
 
@@ -28,9 +28,10 @@ class HourlyListView(ListView):
     context_object_name = 'hourlys'
 
     def get_queryset(self):
-        hourly = Hourly.objects.all()
+        now = datetime.now().strftime("%Y-%m-%d %H:00")
+        hourly = Hourly.objects.filter(date__gte =now)
         print(hourly)
-        return Hourly.objects.order_by('date')
+        return hourly.order_by('date')
     
     def get_context_data(self, **kwargs):
         # context = super(HourlyListView, self).get_context_data(**kwargs)
