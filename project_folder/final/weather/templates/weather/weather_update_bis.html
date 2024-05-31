@@ -4,6 +4,10 @@
 
 {% block content %}
 
+{% block form %}
+  {{ block.super }}
+{% endblock %}
+
 update bis
 <a href="{% url 'weather:weather_list' %}">Observations</a>
 <form method="post">{%csrf_token%}

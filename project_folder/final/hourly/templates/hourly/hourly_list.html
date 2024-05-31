@@ -2,29 +2,61 @@
 {% load static %}
 
 {% block content %}
-<a href="{% url 'weather:weather_list' %}">Daily Weather</a>
 
-<h1  class="pt-3">Hourly in {{ hourlys.0.location }} </h1>
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+    crossorigin="anonymous"
+/>
+
+{% block form %}
+  {{ block.super }}
+{% endblock %}
+
+<h3 class="pt-4">Hourly in {{ hourlys.0.location }} </h3>
+
+<div class="d-flex justify-content-center pt-3 pb-5">
+    <img src="data:image/png;base64,{{ graph }}" alt="Plot">
+</div>
 
 <div class="hourly-list">
 
-    <div>
-        <div>
-            {% for hourly in hourlys %}
-            <div class=''>
-                <a href="{% url 'hourly:hourly_detail' hourly.id %}" class="list">{{ hourly.date|date:"H:00" }}</a><br>
-                Temperature: {{hourly.temp_f}} <br>
-                <img style="" src={{hourly.condition_img}} alt="image"/> <br>
-                Condition: {{hourly.condition}}<br>
-                Precipitation: <i class="bi bi-droplet"></i>{{hourly.precip_in}}<br>
-                Wind: <i class="bi bi-wind"></i>{{hourly.wind_dir}} {{hourly.wind_mph}} mph<br><br>
-            </div>
-            {% endfor %}
-            <img src="data:image/png;base64,{{ graph }}" alt="Plot">
+    <div class="row text-center pt-3 pb-4">
+        <div class="col h4">Time</div>
+        <div class="col h4">Temperature</div>
+        <div class="col h4">Condition</div>
+        <div class="col h4">Precipitation</div>
+        <div class="col h4">Wind</div>
+    </div>
+
+    {% for hourly in hourlys %}
+    <div class="row text-center align-center py-3">
+        <div class="col h5 align-self-center">
+            <a href="{% url 'hourly:hourly_detail' hourly.id %}" class="list">{{ hourly.date|date:"H:00" }}</a>
+        </div>
+        <div class="col h5 align-self-center">
+            {{hourly.temp_f}}˚F
+        </div>
+        <div class="col h5 align-self-center">
+            <img style="" src={{hourly.condition_img}} alt="image"/>
+            {{hourly.condition}}
+        </div>
+        <div class="col h5 align-self-center">
+            <i class="bi bi-droplet"></i>{{hourly.precip_in}} in.
+        </div>
+        <div class="col h5 align-self-center">
+            <i class="bi bi-wind"></i>{{hourly.wind_dir}} {{hourly.wind_mph}} MPH<br>
         </div>
     </div>
+    {% endfor %}
 
 </div>
 
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyNo0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"
+/>
 
 {% endblock content %}

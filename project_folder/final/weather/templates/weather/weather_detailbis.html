@@ -9,6 +9,11 @@
         var ext_weather_update_url = '{% url 'weather:weather_update' weather_id %}'
     </script>
 {% endblock head%}  
+
+{% block form %}
+  {{ block.super }}
+{% endblock %}
+
 {% block content %}
 
     <div id="app">
