@@ -1,24 +1,35 @@
 <template>
-        <div>
-            <div class="detail">
-            <a :href="this.weather_list_url">Observation List</a><br/>
-            <a :href="this.weather_update_url">Update Observation</a><br/> 
+        <div class="container">
+            <div>
+                <h1>Hourly Weather - {{ this.weather.date }}</h1>
+                
             </div>
-           
+            
 
-            <h1>Hourly Weather - {{ this.weather.date }}</h1>
-            Max: {{ this.weather.max_f }}<br/>
-            Min: {{ this.weather.min_f }}<br/>
-            Average humidity: {{ this.weather.humidity }}<br/>
-            Notes: {{ this.weather.note }}
+            <div class="head">
+                <div class="h">
+                Max: {{ this.weather.max_f }}<br/>
+                Min: {{ this.weather.min_f }}<br/>
+                Average humidity: {{ this.weather.humidity }}<br/> 
+                </div>
+                <div class="h">
+                    <a :href="this.weather_update_url">
+                    <button >Notes!</button>
+                    </a><br />
+                    {{ this.weather.note }}
+                    
+                </div>
+            </div>
+            
+            
         </div><br/>
         <div>
-            <div class="detail">
-                <h4 class="c">Hour</h4>
-                <h4 class="c">Temperature</h4>
-                <h4 class="c">Condition</h4>
+            <div class="head">
+                <h4 class="h">Hour</h4>
+                <h4 class="h">Temperature</h4>
+                <h4 class="h">Condition</h4>
             </div><br />
-            <div @click="show = !show" v-for="hourly in this.weather.hourlys" >
+            <div  v-for="(hourly,index) in this.weather.hourlys" @click="show[index] = !show[index]">
                 <div class="detail" >
                     <div class="c">{{ ((hourly.date).toString().split("T"))[1].replace('Z', ' ').split(":")[0] }}
                     </div>
@@ -31,14 +42,16 @@
                     </div>
                 </div>
 
-                <div v-if="show" class="detail">
-                    <div class="c">feels like {{hourly.feels_like }}</div>
-                    <div class="c">wind {{ hourly.wind_mph }}</div>
-                    <div class="c">humidity {{ hourly.humidity }}</div>
-                    
-                    <div class="c">Precipitation {{ hourly.precip_in }}</div>
-                    <div class="c">UV index {{ hourly.uv }}</div>
-                    <div class="c">Pressure {{ hourly.pressure_in }}</div>
+                <div v-if="show[index]" class="detail table">
+                    <div class="c">
+                        <font-awesome-icon :icon="['far', 'sun']" />
+                        feels like<br/> {{hourly.feels_like }}</div>
+                    <div class="c">wind <br/>{{ hourly.wind_mph }}</div>
+                    <div class="c">humidity <br/>{{ hourly.humidity }}</div>
+                   
+                    <div class="c">Precipitation<br/> {{ hourly.precip_in }}</div>
+                    <div class="c">UV index<br/> {{ hourly.uv }}</div>
+                    <div class="c">Pressure <br/>{{ hourly.pressure_in }}</div>
                 </div>
                 <div v-else>
                 </div>
@@ -62,7 +75,7 @@
                 weather_list_url: window.ext_weather_list_url,
                 weather_update_url: window.ext_weather_update_url,
                 weather: {}, 
-                show: false,
+                show: [false, false,false,false,false,false,false,false,false,false,false,false,false, false,false,false,false,false,false,false,false,false,false,false],
             }
         },
         methods: {
@@ -95,19 +108,13 @@
                     return `${timo}`
                 }
             },
-            // show_content(){
-            //     if (this.show){
-            //         this.show = false
-            //     }else{
-            //         this.show=true
-
-            //     }
-                
-            // }
         }, 
         beforeMount() {
             this.get_weather_info()
         },
+        component(){
+            'font-awesome-icon', FontAwesomeIcon
+        }
         // mounted(){
         //     this.weather_detail_js_url=ext_weather_detail_js_url;
         //     this.weather_list_url=ext_weather_list_url;  
@@ -118,7 +125,16 @@
     }
 </script>
 <style>
+.container{
+    background-color:rgb(228, 237, 255);
+}
 .detail{
+    background-color: aliceblue;
+    display: flex;
+    justify-content: space-evenly;
+    margin: auto;
+}
+.head{
     background-color: aliceblue;
     display: flex;
     justify-content: space-around;
@@ -128,7 +144,12 @@
     flex:1 1 30%;
     /* border:solid red 1px; */
     text-align: center;
-    padding: 20px
+    padding: 10px;
+}
+.h{
+    flex: 1 1 50%;
+    /* background-color: red; */
+    text-align: center;
 }
 .detail:hover{
     background-color: #b2c9f4;
@@ -147,4 +168,21 @@
 .show{
     display: block;
 }
+.table{
+    width: 95%;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 1px;
+    border-radius: 5px;
+    border:solid gray 1px;
+    display: grid;
+    grid-template-columns: 200px 200px 200px;
+    background-color:rgb(228, 237, 255);
+}
+.button{
+    float: right;
+    border-radius: 5px;
+}
+
 </style>
