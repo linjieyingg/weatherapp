@@ -1,7 +1,11 @@
 <template>
         <div>
+            <div class="detail">
             <a :href="this.weather_list_url">Observation List</a><br/>
-            <a :href="this.weather_update_url">Update Observation</a><br/>
+            <a :href="this.weather_update_url">Update Observation</a><br/> 
+            </div>
+           
+
             <h1>Hourly Weather - {{ this.weather.date }}</h1>
             Max: {{ this.weather.max_f }}<br/>
             Min: {{ this.weather.min_f }}<br/>
@@ -14,8 +18,8 @@
                 <h4 class="c">Temperature</h4>
                 <h4 class="c">Condition</h4>
             </div><br />
-            <div v-for="hourly in this.weather.hourlys" onclick="show">
-                <div class="detail">
+            <div @click="show = !show" v-for="hourly in this.weather.hourlys" >
+                <div class="detail" >
                     <div class="c">{{ ((hourly.date).toString().split("T"))[1].replace('Z', ' ').split(":")[0] }}
                     </div>
                 <!-- {{ (convert_time_to_string(hourly.date)).replace('GMT-0400 (Eastern Daylight Time)', ' ')}} <br> -->
@@ -26,7 +30,8 @@
                         {{ hourly.condition }} 
                     </div>
                 </div>
-                <div class="detail dropdown-content">
+
+                <div v-if="show" class="detail">
                     <div class="c">feels like {{hourly.feels_like }}</div>
                     <div class="c">wind {{ hourly.wind_mph }}</div>
                     <div class="c">humidity {{ hourly.humidity }}</div>
@@ -34,8 +39,10 @@
                     <div class="c">Precipitation {{ hourly.precip_in }}</div>
                     <div class="c">UV index {{ hourly.uv }}</div>
                     <div class="c">Pressure {{ hourly.pressure_in }}</div>
-                    
                 </div>
+                <div v-else>
+                </div>
+                
 
                 <!-- <img src={{hourly.condition_img }}><br> -->
             </div>
@@ -55,6 +62,7 @@
                 weather_list_url: window.ext_weather_list_url,
                 weather_update_url: window.ext_weather_update_url,
                 weather: {}, 
+                show: false,
             }
         },
         methods: {
@@ -87,9 +95,15 @@
                     return `${timo}`
                 }
             },
-            show(){
-                document.getElementById("myDropdown").classList.toggle("show");
-            }
+            // show_content(){
+            //     if (this.show){
+            //         this.show = false
+            //     }else{
+            //         this.show=true
+
+            //     }
+                
+            // }
         }, 
         beforeMount() {
             this.get_weather_info()
@@ -112,10 +126,11 @@
 }
 .c{
     flex:1 1 30%;
-    border:solid red 1px;
+    /* border:solid red 1px; */
     text-align: center;
+    padding: 20px
 }
-.c:hover{
+.detail:hover{
     background-color: #b2c9f4;
 }
 .dropdown-content{
@@ -126,9 +141,9 @@
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
 }
-.dropcheck:checked ~ .dropdown-content {
+/* .dropcheck:checked ~ .dropdown-content {
   display: block;
-}
+} */
 .show{
     display: block;
 }
