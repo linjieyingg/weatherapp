@@ -9,14 +9,12 @@
         var ext_update_bis_url = "{% url 'weather:observation_update_bis' object.id %}"
     </script>
 {% endblock head%}
+
+{% block form %}
+  {{ block.super }}
+{% endblock %}
+
 {% block content %}
-
-{% comment %} <a href="{% url 'weather:weather_list' %}">Observations</a>
-<form method="post">{%csrf_token%}
-    {{form.as_p}}
-    <input type="submit" value="save">
-</form> {% endcomment %}
-
 <br />
 <div id="app">
     <app></app>

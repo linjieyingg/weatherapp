@@ -19,6 +19,7 @@ import pandas as pd
 import numpy as np
 
 from .hourly_search_form import HourlySearchForm
+from core.form import SearchForm
 
 # Create your views here.
 
@@ -40,8 +41,6 @@ class HourlyListView(ListView):
         
         fig, ax = plt.subplots(figsize=(8, 6))
         time = data['date']
-        print(time)
-        print(data['temp_f'])
 
         fig, ax = plt.subplots()
         plt.plot(time, data['temp_f'], label='Temperature (°F)')
@@ -50,8 +49,10 @@ class HourlyListView(ListView):
         plt.plot(time, data['wind_mph'], label='Wind (mph)')
         plt.title("Hourly Weather Trends")
         plt.tight_layout()
-        plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-        plt.xticks(rotation=45)
+        ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15),
+          fancybox=True, shadow=True, ncol=5)
+        ax.set_xlabel("Time") 
+
         
         graphData = BytesIO()
         plt.savefig(graphData, format='png', bbox_inches='tight')
@@ -60,6 +61,7 @@ class HourlyListView(ListView):
         graph =  urllib.parse.quote(string)
 
         context['graph'] = graph
+        context['search_form'] = SearchForm()
         
         return context       
 
@@ -71,6 +73,7 @@ class HourlyDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['hourly_search_form'] = HourlySearchForm
+        context['search_form'] = SearchForm()
         return context
     
 
