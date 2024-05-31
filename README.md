@@ -6,16 +6,16 @@ This site shows the daily and hourly weather forecast for today and the next 2 d
 
 ## The Cruisers
 #### Jieying Lin
-- jlin41@stuy.edu
-- Github ssername here
+- Email: jlin41@stuy.edu
+- GitHub Username: linjieyingg
 
 #### Hui Wen Weng
-- hweng40@stuy.edu
-- HuiWenWeng
+- Email: hweng40@stuy.edu
+- GitHub Username: HuiWenWeng
 
 #### Xinyi Ruan
-- xruan40@stuy.edu
-- Github username here
+- Email: xruan40@stuy.edu
+- GitHub Username: xruan40
 
 ## API used in this project
 WeatherAPI.com: https://rapidapi.com/weatherapi/api/weatherapi-com
