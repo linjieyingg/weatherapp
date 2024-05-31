@@ -1,8 +1,9 @@
 # Rain Rain Go Away 
 Collaborators: Jieying Lin, Hui Wen Weng, Xinyi Ruan
+
 Group Name: The Cruisers
 
-Summary:
+Summary: This site shows the daily and hourly weather forecast for today and the next 2 days (due to API free subscription restrictions) for the location that is searched in the home page. 
 
 API: WeatherAPI.com - https://rapidapi.com/weatherapi/api/weatherapi-com
 
