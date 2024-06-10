@@ -58,11 +58,10 @@ def searchAPI(search_input):
     return response.json()
     
 def update(r):
-    today = datetime.now().strftime("%Y-%m-%d %H:00")
     location = r['location']['name']
     country = r['location']['country']
     est = pytz.timezone('US/Eastern')
-    
+    today = datetime.strptime(datetime.now().strftime("%Y-%m-%d %H:00"),"%Y-%m-%d %H:00").astimezone(est).strftime("%Y-%m-%d %H:00")
     for day in r['forecast']['forecastday']:
         moonrise = day['astro']['moonrise']
         print('obs',day['date'])
@@ -98,6 +97,8 @@ def update(r):
                 hourly, created = Hourly.objects.update_or_create(date=hourly_info['date'],defaults=hourly_info)
                 print(hourly.date)
                 id = Observation.objects.get(date= datetime.strptime(hourly.date.strftime('%Y-%m-%d'), '%Y-%m-%d').astimezone(est))
+
+                # id = Observation.objects.get(date= datetime.strptime(hourly.date.strftime('%Y-%m-%d'), '%Y-%m-%d').astimezone(est))
                 id.hourlys.add(hourly)
                 id.save()   
     return redirect('hourly/')

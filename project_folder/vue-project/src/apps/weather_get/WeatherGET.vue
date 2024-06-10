@@ -10,8 +10,7 @@
         </div><br/>
         <div>
             <span v-for="hourly in this.weather.hourlys">
-                {{ ((hourly.date).toString().split("T"))[1].replace('Z', ' ').split(":")[0] }}
-                <!-- {{ (convert_time_to_string(hourly.date)).replace('GMT-0400 (Eastern Daylight Time)', ' ')}} <br> -->
+                {{ ((hourly.date).toString().split("T"))[1].replace('Z', ' ').split(":")[0] }}:{{ ((hourly.date).toString().split("T"))[1].replace('Z', ' ').split(":")[1] }}
                 Temperature: {{ hourly.temp_f }} <br>
                 Condition: {{ hourly.condition }} <br>
                 <!-- <img src={{hourly.condition_img }}><br> -->

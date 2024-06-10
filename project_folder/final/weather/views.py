@@ -22,7 +22,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 from datetime import datetime, date
-import pytz
+import pytz 
+from pytz import timezone
 import json
 import ast
 
@@ -100,6 +101,7 @@ class ObservationDetailJsView(View):
         weather_js = model_to_dict(weather)
         weather_js["hourlys"] = []
         for hourly in weather.hourlys.values():
+            hourly['date'] = hourly['date'].astimezone(timezone('America/New_York'))
             weather_js["hourlys"].append(hourly)
         return JsonResponse({"weather": weather_js})
 
