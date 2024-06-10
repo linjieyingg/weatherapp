@@ -1,12 +1,10 @@
-from django.shortcuts import render
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import UpdateView
 from django.urls import reverse_lazy
 from django.contrib import messages
 from .models import Observation
 from hourly.models import Hourly
-from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.views.generic.base import TemplateView
@@ -25,14 +23,17 @@ from datetime import datetime, date
 import pytz 
 from pytz import timezone
 import json
-import ast
-
+from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
 from core.form import SearchForm
+from django.shortcuts import redirect
 
-class ObservationListView(ListView):
+class ObservationListView(LoginRequiredMixin, ListView):
     model = Observation
     context_object_name = 'observations'
     template_name = 'weather/weather_list.html'
+    login_url = "/accounts/login/"
+    redirect_field_name = "redirect_to"
     
     def get_queryset(self):
         now = datetime.now().strftime("%Y-%m-%d")
@@ -43,7 +44,9 @@ class ObservationListView(ListView):
         context = super().get_context_data(**kwargs)
         observations = self.get_queryset()
         data = pd.DataFrame(list(observations.values()))
-        
+        if data.empty:
+            context['message'] = 'Please search a location first'
+            return context
         fig, ax = plt.subplots(figsize=(8, 6))
         date = data['date']
 
@@ -70,7 +73,7 @@ class ObservationListView(ListView):
         context['search_form'] = SearchForm()
 
         return context
-    
+
 class ObservationDetailView(DetailView):
     model = Observation
     context_object_name = 'object'

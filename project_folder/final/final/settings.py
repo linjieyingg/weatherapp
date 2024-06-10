@@ -88,7 +88,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'final.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -151,6 +150,7 @@ GRAPH_MODELS = {
  'group_models': True,
 }
 
+# LOGIN_URL = '/accounts/login'
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 

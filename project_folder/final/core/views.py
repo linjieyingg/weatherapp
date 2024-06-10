@@ -11,14 +11,17 @@ from weather.models import Observation
 from django.contrib import messages
 from django.db.models import Q
 from django.shortcuts import redirect
-import requests
 from datetime import datetime, date
 from .form import SearchForm
 import pytz
 import pandas as pd
 import numpy as np
+from django.contrib.auth.mixins import LoginRequiredMixin
+import requests
 
-class HomePageView(TemplateView):
+class HomePageView(LoginRequiredMixin,TemplateView):
+    login_url = "/accounts/login/"
+    redirect_field_name = "redirect_to"
     template_name = "core/home.html"
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -33,7 +36,6 @@ class CoreLoginView(LoginView):
         return redirect('')
 
 def search_view(request):
-    
     if request.method == "GET":
         form = SearchForm(request.GET)
         if form.is_valid():

@@ -14,7 +14,11 @@
   {{ block.super }}
 {% endblock %}
 
-<h3 class="pt-4">3 Day Weather in {{ observations.0.location }} </h3>
+{%if message%}
+<div class="pt-4 h4">{{message}}</div>
+{%else%}
+
+<h3 class="pt-4">3 Day Weather in {{ observations.last.location }} </h3>
 
 <div class="d-flex justify-content-center pt-3 pb-5">
     <img src="data:image/png;base64,{{ graph }}" alt="Plot">
@@ -51,7 +55,7 @@
     </div>
     <br/>
     {% endfor %}
-
+{%endif%}
 </div>
 
 <script

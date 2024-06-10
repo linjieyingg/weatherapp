@@ -7,8 +7,7 @@ from .models import Hourly
 from weather.models import Observation
 from django.contrib import messages
 from django.db.models import Q
-from django.shortcuts import redirect
-import requests
+
 from datetime import datetime
 from io import BytesIO
 import urllib, base64
@@ -20,13 +19,17 @@ import numpy as np
 from datetime import datetime
 from .hourly_search_form import HourlySearchForm
 from core.form import SearchForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
 
 # Create your views here.
 
-class HourlyListView(ListView):
+class HourlyListView(LoginRequiredMixin, ListView):
     model = Hourly
     context_object_name = 'hourlys'
-
+    login_url = "/accounts/login/"
+    redirect_field_name = "redirect_to"
+    
     def get_queryset(self):
         now = datetime.now().strftime("%Y-%m-%d %H:00")
         hourly = Hourly.objects.filter(date__gte =now)
@@ -39,7 +42,9 @@ class HourlyListView(ListView):
         context = super().get_context_data(**kwargs)
         hourlys = self.get_queryset()
         data = pd.DataFrame(list(hourlys.values()))
-        
+        if data.empty:
+            context['message'] = 'Please search a location first'
+            return context
         fig, ax = plt.subplots(figsize=(8, 6))
         # time = data['date'].dt.hour
         # print(data['date'].dt.hour)
@@ -65,7 +70,6 @@ class HourlyListView(ListView):
         context['search_form'] = SearchForm()
         
         return context       
-
     
 class HourlyDetailView(DetailView):
     model = Hourly
