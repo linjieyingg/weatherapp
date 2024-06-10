@@ -40,13 +40,13 @@
                                                 <div class="col-auto">
                                                     <form action="{{url_logout}}" method="post">
                                                         {% csrf_token %}
-                                                        <button type="submit" class="btn-styles ms-3 pull-right" id="logbtn">Logout</button>
+                                                        <button type="submit" class="btn-styles ms-3 pull-right text-decoration-none" id="logbtn">Logout</button>
                                                     </form>
                                                 </div>
                                             </div>
                                         {% else %}
                                             <div class="col">
-                                                <a class="btn-styles" href="{{ url_login }}" role="button">Login</a>
+                                                <a class="btn-styles text-decoration-none" href="{{ url_login }}" role="button">Login</a>
                                             </div>
                                         {% endif %}
                                 </div>
@@ -74,12 +74,6 @@
                 {% endblock %}
             </div>
         </nav>
-
-        <p>
-            <li>CSS and Bootstrap</li>
-            <li>Displaying only the current weather/hour</li>
-            <li>Debug vue pages</li>
-        </p>
         
         {% block content %}
         {% endblock content %}

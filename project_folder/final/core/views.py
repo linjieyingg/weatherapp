@@ -64,11 +64,17 @@ def update(r):
     today = datetime.strptime(datetime.now().strftime("%Y-%m-%d %H:00"),"%Y-%m-%d %H:00").astimezone(est).strftime("%Y-%m-%d %H:00")
     for day in r['forecast']['forecastday']:
         moonrise = day['astro']['moonrise']
+        moonset = day['astro']['moonset']
         print('obs',day['date'])
         if(moonrise == 'No moonrise'):
-            moonrise= datetime.min
+            moonrise = datetime.min
         else: 
             moonrise = datetime.strptime(day['astro']['moonrise'],"%I:%M %p")
+        if(moonset == 'No moonset'):
+            moonset= datetime.min
+        else: 
+            print(moonset)
+            moonset = datetime.strptime(day['astro']['moonset'],"%I:%M %p")
         observation_info = {
             'date' : day['date'],'location': location,'country' : country,
             'condition' : day['day']['condition']['text'],
@@ -79,7 +85,8 @@ def update(r):
             'precip_in': day['day']['totalprecip_in'],'uv': day['day']['uv'],
             'sunrise': datetime.strptime(day['astro']['sunrise'],"%I:%M %p"),
             'sunset': datetime.strptime(day['astro']['sunset'],"%I:%M %p"),
-            'moonrise': moonrise,'moonset': datetime.strptime(day['astro']['moonset'],"%I:%M %p"),
+            'moonrise': moonrise,
+            'moonset': moonset,
             'moon_phase': day['astro']['moon_phase'] 
         }
         Observation.objects.update_or_create(date=observation_info['date'], defaults=observation_info)

@@ -87,5 +87,9 @@ HuiWenW - 2024-05-31 14:50
   - Added colors in CSS
   - Checking/working on responsiveness
 
-HuiWenW- 2024-05-31 16:31
+HuiWenW - 2024-05-31 16:31
   - Updated/Finished readme.md
+
+HuiWenW - 2024-06-10 15:25
+  - Updated description on home page
+  - Fixed x-axis bug on the hourly weather graph
