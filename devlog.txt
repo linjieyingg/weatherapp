@@ -93,3 +93,6 @@ HuiWenW - 2024-05-31 16:31
 HuiWenW - 2024-06-10 15:25
   - Updated description on home page
   - Fixed x-axis bug on the hourly weather graph
+
+JieyingL - 2024-06-10 19:46
+  - Handled error that occurs when clicking into daily and hourly weather without having searched a location
