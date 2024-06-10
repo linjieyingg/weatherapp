@@ -54,19 +54,7 @@ In order to access this project, following these directions:
 1. Locate the file called `secrets_template.json` in the `project_folder/final/` directory
 2. Make a copy of the file and name it to `secrets.json`
 3. Replace the data with information about your own database
-   
-   ```
-   {
-    "environment": "development",
-    "movie_theater_url": "http://localhost:8000",
-    "database_name": "[db_name]",
-    "database_user": "[db_username]",
-    "database_pwd": "[db_pwd]",
-    "database_host": "localhost",
-    "database_port": "5432"
-    "vite_dev_server_port": "5173"
-   }
-   ```
+
 
 #### Running the Project
 1. Move into the directory on the same level as the file `manage.py`
