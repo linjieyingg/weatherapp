@@ -41,20 +41,20 @@ class HourlyListView(ListView):
         data = pd.DataFrame(list(hourlys.values()))
         
         fig, ax = plt.subplots(figsize=(8, 6))
-        time = data['date']
+        # time = data['date'].dt.hour
+        # print(data['date'].dt.hour)
 
         fig, ax = plt.subplots()
-        plt.plot(time, data['temp_f'], label='Temperature (°F)')
-        plt.plot(time, data['precip_in'], label='Precipitation (in)')
-        plt.plot(time, data['humidity'], label='Humidity')
-        plt.plot(time, data['wind_mph'], label='Wind (mph)')
+        plt.plot(data['temp_f'], label='Temperature (°F)')
+        plt.plot(data['precip_in'], label='Precipitation (in)')
+        plt.plot(data['humidity'], label='Humidity')
+        plt.plot(data['wind_mph'], label='Wind (mph)')
         plt.title("Hourly Weather Trends")
-        plt.tight_layout()
         ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15),
           fancybox=True, shadow=True, ncol=5)
-        ax.set_xlabel("Time") 
+        ax.set_xlabel("Time (in hours from now)")
 
-        
+
         graphData = BytesIO()
         plt.savefig(graphData, format='png', bbox_inches='tight')
         graphData.seek(0)
