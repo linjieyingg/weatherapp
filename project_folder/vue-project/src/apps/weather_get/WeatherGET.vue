@@ -1,20 +1,71 @@
 <template>
-        <div>
-            <a :href="this.weather_list_url">Observation List</a><br/>
-            <a :href="this.weather_update_url">Update Observation</a><br/>
-            <h1>{{ this.weather.date }}</h1>
-            Max: {{ this.weather.max_f }}<br/>
-            Min: {{ this.weather.min_f }}<br/>
-            Average humidity: {{ this.weather.humidity }}<br/>
-            Notes: {{ this.weather.note }}
+        <div class="container">
+            <div>
+                <h1>Hourly Weather - {{ this.weather.date }}</h1>
+                
+            </div>
+            
+
+            <div class="head">
+                <div class="h">
+                Max: {{ this.weather.max_f }}<br/>
+                Min: {{ this.weather.min_f }}<br/>
+                Average humidity: {{ this.weather.humidity }}<br/> 
+                </div>
+                <div class="h">
+                    <a :href="this.weather_update_url">
+                    <button >Notes!</button>
+                    </a><br />
+                    {{ this.weather.note }}
+                    
+                </div>
+            </div>
+            
+            
         </div><br/>
         <div>
+<<<<<<< HEAD
             <span v-for="hourly in this.weather.hourlys">
                 {{ ((hourly.date).toString().split("T"))[1].replace('Z', ' ').split(":")[0] }}:{{ ((hourly.date).toString().split("T"))[1].replace('Z', ' ').split(":")[1] }}
                 Temperature: {{ hourly.temp_f }} <br>
                 Condition: {{ hourly.condition }} <br>
+=======
+            <div class="head">
+                <h4 class="h">Hour</h4>
+                <h4 class="h">Temperature</h4>
+                <h4 class="h">Condition</h4>
+            </div><br />
+            <div  v-for="(hourly,index) in this.weather.hourlys" @click="show[index] = !show[index]">
+                <div class="detail" >
+                    <div class="c">{{ ((hourly.date).toString().split("T"))[1].replace('Z', ' ').split(":")[0] }}
+                    </div>
+                <!-- {{ (convert_time_to_string(hourly.date)).replace('GMT-0400 (Eastern Daylight Time)', ' ')}} <br> -->
+                    <div class="c">   
+                        {{ hourly.temp_f }} 
+                    </div>
+                    <div class="c">
+                        {{ hourly.condition }} 
+                    </div>
+                </div>
+
+                <div v-if="show[index]" class="detail table">
+                    <div class="c">
+                        <font-awesome-icon :icon="['far', 'sun']" />
+                        feels like<br/> {{hourly.feels_like }}</div>
+                    <div class="c">wind <br/>{{ hourly.wind_mph }}</div>
+                    <div class="c">humidity <br/>{{ hourly.humidity }}</div>
+                   
+                    <div class="c">Precipitation<br/> {{ hourly.precip_in }}</div>
+                    <div class="c">UV index<br/> {{ hourly.uv }}</div>
+                    <div class="c">Pressure <br/>{{ hourly.pressure_in }}</div>
+                </div>
+                <div v-else>
+                </div>
+                
+
+>>>>>>> main
                 <!-- <img src={{hourly.condition_img }}><br> -->
-                <br/></span>
+            </div>
         </div>  
     
 </template>
@@ -31,6 +82,7 @@
                 weather_list_url: window.ext_weather_list_url,
                 weather_update_url: window.ext_weather_update_url,
                 weather: {}, 
+                show: [false, false,false,false,false,false,false,false,false,false,false,false,false, false,false,false,false,false,false,false,false,false,false,false],
             }
         },
         methods: {
@@ -62,11 +114,14 @@
                     // return `${timo.getHours()}:00`
                     return `${timo}`
                 }
-            }
+            },
         }, 
         beforeMount() {
             this.get_weather_info()
         },
+        component(){
+            'font-awesome-icon', FontAwesomeIcon
+        }
         // mounted(){
         //     this.weather_detail_js_url=ext_weather_detail_js_url;
         //     this.weather_list_url=ext_weather_list_url;  
@@ -76,3 +131,65 @@
         // },
     }
 </script>
+<style>
+.container{
+    background-color:rgb(228, 237, 255);
+}
+.detail{
+    background-color: aliceblue;
+    display: flex;
+    justify-content: space-evenly;
+    margin: auto;
+}
+.head{
+    background-color: aliceblue;
+    display: flex;
+    justify-content: space-around;
+    margin: auto;
+}
+.c{
+    flex:1 1 30%;
+    /* border:solid red 1px; */
+    text-align: center;
+    padding: 10px;
+}
+.h{
+    flex: 1 1 50%;
+    /* background-color: red; */
+    text-align: center;
+}
+.detail:hover{
+    background-color: #b2c9f4;
+}
+.dropdown-content{
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+/* .dropcheck:checked ~ .dropdown-content {
+  display: block;
+} */
+.show{
+    display: block;
+}
+.table{
+    width: 95%;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 1px;
+    border-radius: 5px;
+    border:solid gray 1px;
+    display: grid;
+    grid-template-columns: 200px 200px 200px;
+    background-color:rgb(228, 237, 255);
+}
+.button{
+    float: right;
+    border-radius: 5px;
+}
+
+</style>

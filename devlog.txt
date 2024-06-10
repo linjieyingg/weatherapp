@@ -75,7 +75,17 @@ XinyiR - 2024-05-30 13:41
   - Finished vue update form
   - Fixed vue update form but weather dictionary doesn't show up
 
-HuiWenW- 2024-05-31 11:01
+xinyiR - 2024-05-31 14:50
+  - Worked on Bootstrap CSS
+
+HuiWenW - 2024-05-31 11:01
   - Continued to work on Bootstrap CSS
   - Fixed search bar (Django form) not showing up on other app pages
   - Tried to put custom colors (external CSS file)
+
+HuiWenW - 2024-05-31 14:50
+  - Added colors in CSS
+  - Checking/working on responsiveness
+
+HuiWenW- 2024-05-31 16:31
+  - Updated/Finished readme.md
