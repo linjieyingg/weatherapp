@@ -96,3 +96,7 @@ HuiWenW - 2024-06-10 15:25
 
 JieyingL - 2024-06-10 19:46
   - Handled error that occurs when clicking into daily and hourly weather without having searched a location
+  - Authentication update
+
+JieyingL - 2024-06-11 14:42
+  - Updated database diagram + design doc
