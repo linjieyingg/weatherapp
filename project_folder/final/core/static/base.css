@@ -2,9 +2,9 @@ nav {
     background-color: #1ea896;
     color: white; 
     border-radius: 8px;
-    a {
+    /* a {
         color: white;
-    }
+    } */
 }
 
 .btn-styles {
