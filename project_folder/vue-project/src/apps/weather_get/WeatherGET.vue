@@ -1,5 +1,6 @@
 <template>
-        <div class="container">
+    <div >
+        <div>
             <div>
                 <h1>Hourly Weather - {{ this.weather.date }}</h1>
                 
@@ -97,8 +98,8 @@
 
                 <!-- <img src={{hourly.condition_img }}><br> -->
             </div>
-        </div>  
-    
+        </div> 
+    </div> 
 </template>
     
 <script>
@@ -157,10 +158,14 @@
 <style>
 
 .container{
-    background-color:#d3f2ee;
+    background-color:white;
+    /* min-height: 100%;
+    bottom: 0;
+    min-width:100%;
+    margin:0; */
 }
 .detail{
-    background-color: white;
+    background-color:white;
     border-bottom:solid lightgray 1px;
     border-radius: 5px;
     display: flex;
@@ -174,7 +179,7 @@
     margin: auto;
 }
 .hr{
-    background-color:white;
+    background-color:#d3f2ee;
     border-radius: 2px;
     border:solid lightgray 1px;
     padding:5px;
@@ -194,7 +199,7 @@
 .dropdown-content{
     display: none;
     position: absolute;
-    background-color: #f9f9f9;
+    background-color:white;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
@@ -212,7 +217,7 @@
     border:solid gray 1px;
     display: grid;
     grid-template-columns: 200px 200px 200px;
-    background-color:#d3f2ee;
+    background-color:white;
 }
 .button{
     float: right;
