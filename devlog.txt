@@ -96,3 +96,9 @@ HuiWenW - 2024-06-10 15:25
 
 JieyingL - 2024-06-10 19:46
   - Handled error that occurs when clicking into daily and hourly weather without having searched a location
+
+HuiWenW - 2024-06-11 14:50
+  - Bootstrapped matplotlib graphs
+
+HuiWenW - 2024-06-11 20:52
+  - CSS/Bootstrapped hourly details page

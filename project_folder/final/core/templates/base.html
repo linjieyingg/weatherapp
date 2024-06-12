@@ -63,8 +63,8 @@
         </div>
         
         <nav class="py-15 align-items-center">
-            <a class="d-inline-flex p-4 text-decoration-none fs-5" href="{% url 'weather:weather_list' %}">Daily Weather</a> 
-            <a class="d-inline-flex p-4 text-decoration-none fs-5" href="{% url 'hourly:hourly_list' %}">Hourly Weather</a>
+            <a class="d-inline-flex p-4 text-decoration-none text-light fs-5" href="{% url 'weather:weather_list' %}">Daily Weather</a> 
+            <a class="d-inline-flex p-4 text-decoration-none text-light fs-5" href="{% url 'hourly:hourly_list' %}">Hourly Weather</a>
             <div class="d-inline-flex p-4 float-end">
                 {% block search %}
                 <form class="col" action="{% url 'core:search' %}" method="get">

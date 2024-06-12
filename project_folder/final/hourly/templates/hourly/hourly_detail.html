@@ -7,16 +7,31 @@
 
 {% block content %}
 
+    <h1 class="py-4"> Hourly Weather - {{ hourly_details.date }} </h1>
 
-    <div id="app">
-        <app></app>
+    <div class="row py-3"> 
+      <div class="col text-center h4"> Temperature </div>
+      <div class="col-5"> {{hourly_details.temp_f}} ˚F </div> 
     </div>
 
-    <h1>{{ hourly_details.date }}</h1>
-    Temperature: {{hourly_details.temp_f}}<br />
-    UV Index: {{hourly_details.uv}} out of 11<br />
-    Rain Amount: {{hourly_details.precip_in}}
-    Humidity: {{hourly_details.humidity}}
-    Feels like {{hourly_details.feels_like}}
+    <div class="row py-3"> 
+      <div class="col text-center h4"> UV Index </div>
+      <div class="col-5"> {{hourly_details.uv}} out of 11 </div>
+    </div>
+
+    <div class="row py-3"> 
+      <div class="col text-center h4"> Rain Amount </div>
+      <div class="col-5"> {{hourly_details.precip_in}} inches </div>
+    </div>
+
+    <div class="row py-3">
+      <div class="col text-center h4"> Humidity </div>
+      <div class="col-5"> {{hourly_details.humidity}} % </div>
+    </div>
+
+    <div class="row py-3">
+      <div class="col text-center h4"> Feels Like </div> 
+      <div class="col-5"> {{hourly_details.feels_like}} ˚F </div>
+    </div>
 
 {% endblock content %}

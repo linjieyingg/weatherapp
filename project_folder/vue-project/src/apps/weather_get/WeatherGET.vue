@@ -2,7 +2,7 @@
     <div >
         <div>
             <div>
-                <h1>Hourly Weather - {{ this.weather.date }}</h1>
+                <h1 class="py-4">Daily Weather - {{ this.weather.date }}</h1>
                 
             </div>
             <div class="hr head">
