@@ -6,7 +6,7 @@ This site shows the daily and hourly weather forecast for today and the next 2 d
 
 ## The Cruisers
 #### Jieying Lin
-- Email: jlin41@stuy.edu
+- Email: linjieying96@gmail.com
 - GitHub Username: linjieyingg
 
 #### Hui Wen Weng
@@ -14,7 +14,7 @@ This site shows the daily and hourly weather forecast for today and the next 2 d
 - GitHub Username: HuiWenWeng
 
 #### Xinyi Ruan
-- Email: xruan40@stuy.edu
+- Email: jacquelineruan06@gmail.com
 - GitHub Username: xruan40
 
 ## API used in this project
