@@ -5,7 +5,7 @@
 This site shows the daily and hourly weather forecast for today and the next 2 days (due to API free subscription restrictions) for the location that is searched in the home page. 
 
 ## The Cruisers
-#### Jieying Lin
+#### Jieying Lin (Project Manager)
 - Email: linjieying96@gmail.com
 - GitHub Username: linjieyingg
 
